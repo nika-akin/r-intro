@@ -28,7 +28,7 @@ By the end of the course participants should be:
 |-------------|-----------------|--------------------------------------|
 | **Wednesday** | **12:00 - 13:00** | **[Onboarding & Getting Started with R](https://rawcdn.githack.com/nika-akin/r-intro/5bd657f17439f06feda4623d887601e39aade238/slides/1_1_Getting_Started.html)** |
 | *Wednesday* | *13:00 - 13:15*  | *Break*                             |
-| **Wednesday** | **13:15 - 14:30** | **[Data Types & Loading](https://rawcdn.githack.com/nika-akin/r-intro/8468b4dbbb2f44809997197dc6a5fd113ab81966/slides/1_2_Data_Types_Import_Export.html)**            |
+| **Wednesday** | **13:15 - 14:30** | **[Data Types & Loading](https://rawcdn.githack.com/nika-akin/r-intro/409576a686d96f11ac1b54ef1a03f0b549a13b72/slides/1_2_Data_Types_Import_Export.html)**            |
 | *Wednesday* | *14:30 - 14:45*  | *Break*                             |
 | **Wednesday** | **14:45 - 16:00** | **[Data Workflows](https://rawcdn.githack.com/nika-akin/r-intro/a81e54f59fb4fd0b8f9460361c1d2f9dbfe623af/slides/1_3_Appendix_Setup_Workflow_Help.html) & [Wrangling](https://rawcdn.githack.com/nika-akin/r-intro/8468b4dbbb2f44809997197dc6a5fd113ab81966/slides/2_1_Data_Wrangling_Part1.html)**      |
 | *Wednesday* | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
