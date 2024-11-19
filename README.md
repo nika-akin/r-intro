@@ -57,9 +57,9 @@ By the end of the course participants should be:
 | *Friday*    | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
 
 
-# Materials
-## Day 1
-### Slides
+https://html-preview.github.io/?url=https://nika-akin/r-intro/blob/main/slides/1_1_Getting_Started.html
+https://github.com/nika-akin/r-intro/blob/main/slides/1_1_Getting_Started.html
+
 [1_1 Getting Started](https://stefanjuenger.github.io/r-intro-gesis-2022/slides/1_1_Getting_Started.html)             
 
 [1_2 Data Types, Import, & Export](https://stefanjuenger.github.io/r-intro-gesis-2022/slides/1_2_Data_Types_Import_Export.html)    
