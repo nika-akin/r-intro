@@ -25,7 +25,7 @@ By the end of the course participants should be:
 ### Day 1: Wednesday
 | Day         | Time            | Topic                                |
 |-------------|-----------------|--------------------------------------|
-| **Wednesday** | **12:00 - 13:00** | **Onboarding & Getting Started with R** |
+| **Wednesday** | **12:00 - 13:00** | **[Onboarding](https://rawcdn.githack.com/nika-akin/r-intro/9c8c3e4363e917088de04f92bf2ce4c6399bb15b/slides/1_1_Getting_Started.html) & Getting Started with R** |
 | *Wednesday* | *13:00 - 13:15*  | *Break*                             |
 | **Wednesday** | **13:15 - 14:30** | **Data Types & Loading**            |
 | *Wednesday* | *14:30 - 14:45*  | *Break*                             |
@@ -57,8 +57,7 @@ By the end of the course participants should be:
 | *Friday*    | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
 
 
-https://html-preview.github.io/?url=https://nika-akin/r-intro/blob/main/slides/1_1_Getting_Started.html
-https://github.com/nika-akin/r-intro/blob/main/slides/1_1_Getting_Started.html
+
 
 [1_1 Getting Started](https://stefanjuenger.github.io/r-intro-gesis-2022/slides/1_1_Getting_Started.html)             
 
