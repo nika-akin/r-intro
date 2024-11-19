@@ -39,9 +39,9 @@ By the end of the course participants should be:
 |-------------|-----------------|--------------------------------------|
 | **Thursday** | **12:00 - 13:00** | **[Data Wrangling](https://rawcdn.githack.com/nika-akin/r-intro/a81e54f59fb4fd0b8f9460361c1d2f9dbfe623af/slides/2_2_Data_Wrangling_Part2.html)**                  |
 | *Thursday* | *13:00 - 13:15*  | *Break*                             |
-| **Thursday** | **13:15 - 14:30** | **Exploratory Data Analysis**       |
+| **Thursday** | **13:15 - 14:30** | **[Exploratory Data Analysis](https://rawcdn.githack.com/nika-akin/r-intro/3ce85db01a890ce1ca266adafcd1620cd178c784/slides/3_1_Exploratory_Data_Analysis.html)**       |
 | *Thursday* | *14:30 - 14:45*  | *Break*                             |
-| **Thursday** | **14:45 - 16:00** | **Relational Data**                 |
+| **Thursday** | **14:45 - 16:00** | **[Relational Data](https://rawcdn.githack.com/nika-akin/r-intro/3ce85db01a890ce1ca266adafcd1620cd178c784/slides/2_3_Appendix_Relational_Data.html)**                 |
 | *Thursday* | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
 
 ---
@@ -49,7 +49,7 @@ By the end of the course participants should be:
 ### Day 3: Friday
 | Day         | Time            | Topic                                |
 |-------------|-----------------|--------------------------------------|
-| **Friday**   | **12:00 - 13:00** | **Visualization & Exploratory Data Analysis** |
+| **Friday**   | **12:00 - 13:00** | **[Visualization](https://rawcdn.githack.com/nika-akin/r-intro/3ce85db01a890ce1ca266adafcd1620cd178c784/slides/3_2_Data_Visualization_Part_1.html) & [Confirmatory Analysis](https://rawcdn.githack.com/nika-akin/r-intro/3ce85db01a890ce1ca266adafcd1620cd178c784/slides/4_1_Confirmatory_Data_Analysis.html)** |
 | *Friday*    | *13:00 - 13:15*  | *Break*                             |
 | **Friday**   | **13:15 - 14:30** | **Reporting with R Markdown**       |
 | *Friday*    | *14:30 - 14:45*  | *Break*                             |
