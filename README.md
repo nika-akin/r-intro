@@ -20,6 +20,41 @@ By the end of the course participants should be:
 - Able to conduct basic visualizations and analyses of their data with `R`
 - Able to generate reproducible research reports using `R Markdown`
 
+# Course Schedule
+
+### Day 1: Wednesday
+| Day         | Time            | Topic                                |
+|-------------|-----------------|--------------------------------------|
+| **Wednesday** | **12:00 - 13:00** | **Onboarding & Getting Started with R** |
+| *Wednesday* | *13:00 - 13:15*  | *Break*                             |
+| **Wednesday** | **13:15 - 14:30** | **Data Types & Loading**            |
+| *Wednesday* | *14:30 - 14:45*  | *Break*                             |
+| **Wednesday** | **14:45 - 16:00** | **Data Workflows & Wrangling**      |
+| *Wednesday* | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
+
+---
+
+### Day 2: Thursday
+| Day         | Time            | Topic                                |
+|-------------|-----------------|--------------------------------------|
+| **Thursday** | **12:00 - 13:00** | **Data Wrangling**                  |
+| *Thursday* | *13:00 - 13:15*  | *Break*                             |
+| **Thursday** | **13:15 - 14:30** | **Exploratory Data Analysis**       |
+| *Thursday* | *14:30 - 14:45*  | *Break*                             |
+| **Thursday** | **14:45 - 16:00** | **Relational Data**                 |
+| *Thursday* | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
+
+---
+
+### Day 3: Friday
+| Day         | Time            | Topic                                |
+|-------------|-----------------|--------------------------------------|
+| **Friday**   | **12:00 - 13:00** | **Visualization & Exploratory Data Analysis** |
+| *Friday*    | *13:00 - 13:15*  | *Break*                             |
+| **Friday**   | **13:15 - 14:30** | **Reporting with R Markdown**       |
+| *Friday*    | *14:30 - 14:45*  | *Break*                             |
+| **Friday**   | **14:45 - 16:00** | **Wrap-up (Evaluation) & Group Session** |
+| *Friday*    | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
 
 # Timetable
 ## Day 1
