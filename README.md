@@ -1,12 +1,7 @@
-# "Introduction to R for Data Analysis", [GESIS Summer School in Survey Methodology](https://www.gesis.org/en/gesis-training/what-we-offer/summer-school-in-survey-methodology) 2022
-Materials for the 2022 [GESIS Summer School in Survey Methodology](https://www.gesis.org/en/gesis-training/what-we-offer/summer-school-in-survey-methodology) course "Introduction to R for Data Analysis"
+# "Data Literacy: Introduction to R"
 
-[Stefan Jünger](https://stefanjuenger.github.io/) ([stefan.juenger@gesis.org](mailto:stefan.juenger@gesis.org), [\@StefanJuenger](https://twitter.com/StefanJuenger));
-[Veronika Batzdorfer](https://www.gesis.org/institut/mitarbeiterverzeichnis/person/Veronika.Batzdorfer?no_cache=1) ([veronika.batzdorfer@gesis.org](mailto:veronika.batzdorfer@gesis.org);
-[Johannes Breuer](https://www.johannesbreuer.com/) ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [\@MattEagle09](https://twitter.com/MattEagle09))
+[Veronika Batzdorfer](https://sociology.itz.kit.edu/21_138.php) ([veronika.batzdorfer@kit.edu](mailto:veronika.batzdorfer@kit.edu);
 
-[![](https://licensebuttons.net/l/by/3.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/) 
-Please link to the [workshop GitHub repository](https://github.com/StefanJuenger/r-intro-gesis-2022)
 
 ---
 
@@ -168,93 +163,6 @@ By the end of the course participants should be:
    <td style="text-align:left;color: gray !important;"> 14:15 - 15:30 </td>
    <td style="text-align:left;font-weight: bold;"> Data Visualization - Part 1 </td>
   </tr>
-</tbody>
-</table>
-
-## Day 4
-<table class="table" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> Day </th>
-   <th style="text-align:left;"> Time </th>
-   <th style="text-align:left;"> Topic </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;"> 09:30 - 10:30 </td>
-   <td style="text-align:left;font-weight: bold;"> Confirmatory Data Analysis </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> 10:30 - 10:45 </td>
-   <td style="text-align:left;font-weight: bold;color: gray !important;"> Break </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;"> 10:45 - 12:00 </td>
-   <td style="text-align:left;font-weight: bold;"> Confirmatory Data Analysis </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> 12:00 - 13:00 </td>
-   <td style="text-align:left;font-weight: bold;color: gray !important;"> Lunch Break </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;"> 13:00 - 14:00 </td>
-   <td style="text-align:left;font-weight: bold;"> Data Visualization - Part 2 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> 14:00 - 14:15 </td>
-   <td style="text-align:left;font-weight: bold;color: gray !important;"> Break </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Thursday </td>
-   <td style="text-align:left;color: gray !important;"> 14:15 - 15:30 </td>
-   <td style="text-align:left;font-weight: bold;"> Data Visualization - Part 2 </td>
-  </tr>
-</tbody>
-</table>
-
-## Day 5
-<table class="table" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> Day </th>
-   <th style="text-align:left;"> Time </th>
-   <th style="text-align:left;"> Topic </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Friday </td>
-   <td style="text-align:left;color: gray !important;"> 09:30 - 10:30 </td>
-   <td style="text-align:left;font-weight: bold;"> Reporting with R Markdown </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> Friday </td>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> 10:30 - 10:45 </td>
-   <td style="text-align:left;font-weight: bold;color: gray !important;"> Break </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Friday </td>
-   <td style="text-align:left;color: gray !important;"> 10:45 - 12:30 </td>
-   <td style="text-align:left;font-weight: bold;"> Reporting with R Markdown </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> Friday </td>
-   <td style="text-align:left;color: gray !important;color: gray !important;"> 12:30 - 13:30 </td>
-   <td style="text-align:left;font-weight: bold;color: gray !important;"> Lunch Break </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;color: gray !important;"> Friday </td>
-   <td style="text-align:left;color: gray !important;"> 13:30 - 14:30 </td>
-   <td style="text-align:left;font-weight: bold;"> Outlook, Q&amp;A </td>
-  </tr>
-  <tr>
 </tbody>
 </table>
 
