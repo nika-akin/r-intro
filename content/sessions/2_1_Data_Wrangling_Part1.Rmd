@@ -600,9 +600,9 @@ head(tuesdata_ai)
 ---
 class: center, middle
 
-# [Exercise](https://stefanjuenger.github.io/r-intro-gesis-2022/exercises/Exercise_2_1_1_Selecting_Renaming_Steps.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://rawcdn.githack.com/nika-akin/r-intro/9d05476f895e390df08662eecbefd4137f67acf4/exercises/Exercise_2_1_1_Selecting_Renaming_Steps.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://stefanjuenger.github.io/r-intro-gesis-2022/solutions/Exercise_2_1_1_Selecting_Renaming_Steps.html)
+## [Solutions](https://rawcdn.githack.com/nika-akin/r-intro/9d05476f895e390df08662eecbefd4137f67acf4/solutions/Exercise_2_1_1_Selecting_Renaming_Steps.html)
 
 
 ---

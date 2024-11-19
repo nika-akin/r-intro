@@ -492,9 +492,9 @@ However, there are more flexible ways of doing this as we will see in the sessio
 
 class: center, middle
 
-# [Exercise](https://stefanjuenger.github.io/r-intro-gesis-2022/exercises/Exercise_1_2_1_Data_Types.html) time `r emo::ji("weight_lifting_woman")``r emo::ji("muscle")``r emo::ji("running_man")``r emo::ji("biking_man")`
+# [Exercise](https://rawcdn.githack.com/nika-akin/r-intro/9d05476f895e390df08662eecbefd4137f67acf4/exercises/Exercise_1_2_1_Data_Types.html) time `r emo::ji("weight_lifting_woman")``r emo::ji("muscle")``r emo::ji("running_man")``r emo::ji("biking_man")`
 
-## [Solutions](https://stefanjuenger.github.io/r-intro-gesis-2022/solutions/Exercise_1_2_1_Data_Types.html)
+## [Solutions](https://rawcdn.githack.com/nika-akin/r-intro/9d05476f895e390df08662eecbefd4137f67acf4/solutions/Exercise_1_2_1_Data_Types.html)
 
 ---
 
@@ -846,9 +846,9 @@ titanic <-
 
 class: center, middle
 
-# [Exercise](https://stefanjuenger.github.io/r-intro-gesis-2022/exercises/Exercise_1_2_2_Flat_Files.html) time `r emo::ji("weight_lifting_woman")``r emo::ji("muscle")``r emo::ji("running_man")``r emo::ji("biking_man")`
+# [Exercise](https://rawcdn.githack.com/nika-akin/r-intro/9d05476f895e390df08662eecbefd4137f67acf4/exercises/Exercise_1_2_2_Flat_Files.html) time `r emo::ji("weight_lifting_woman")``r emo::ji("muscle")``r emo::ji("running_man")``r emo::ji("biking_man")`
 
-## [Solutions](https://stefanjuenger.github.io/r-intro-gesis-2022/solutions/Exercise_1_2_2_Flat_Files.html)
+## [Solutions](https://rawcdn.githack.com/nika-akin/r-intro/9d05476f895e390df08662eecbefd4137f67acf4/solutions/Exercise_1_2_2_Flat_Files.html)
 
 ---
 
