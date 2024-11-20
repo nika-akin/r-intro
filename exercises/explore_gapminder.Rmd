@@ -285,6 +285,6 @@ library(sjPlot)
 plot_model(model,
            type = "std")
 
-plot_model(model,
-           type = "pred")
 ```
+
+
