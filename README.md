@@ -52,7 +52,7 @@ By the end of the course participants should be:
 |-------------|-----------------|--------------------------------------|
 | **Friday**   | **12:00 - 13:00** | **[Visualization](https://rawcdn.githack.com/nika-akin/r-intro/3ce85db01a890ce1ca266adafcd1620cd178c784/slides/3_2_Data_Visualization_Part_1.html) & [Confirmatory Analysis](https://rawcdn.githack.com/nika-akin/r-intro/3ce85db01a890ce1ca266adafcd1620cd178c784/slides/4_1_Confirmatory_Data_Analysis.html)** |
 | *Friday*    | *13:00 - 13:15*  | *Break*                             |
-| **Friday**   | **13:15 - 14:30** | **Reporting with R Markdown**       |
+| **Friday**   | **13:15 - 14:30** | **[Reporting with R Markdown](https://rawcdn.githack.com/nika-akin/r-intro/3702945b4e871c9fad3db031b16dfe779da09f42/slides/5_1_Reporting_w_Rmarkdown.html)**       |
 | *Friday*    | *14:30 - 14:45*  | *Break*                             |
 | **Friday**   | **14:45 - 16:00** | **Wrap-up (Evaluation) & Group Session** |
 | *Friday*    | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
