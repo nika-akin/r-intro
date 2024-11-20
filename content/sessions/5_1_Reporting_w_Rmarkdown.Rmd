@@ -614,7 +614,7 @@ The [`RMarkdown` chapter](https://r4ds.had.co.nz/r-markdown.html) in *R for Data
 
 class: center, middle
 
-# [Exercise]() time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://rawcdn.githack.com/nika-akin/r-intro/87453e4ba13b1b3d4b9eca51eddc2627aa6efcea/exercises/Exercise_5_1_1_R_Markdown.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
 ---
 
