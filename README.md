@@ -54,7 +54,7 @@ By the end of the course participants should be:
 | *Friday*    | *13:00 - 13:15*  | *Break*                             |
 | **Friday**   | **13:15 - 14:30** | **[Reporting with R Markdown](https://rawcdn.githack.com/nika-akin/r-intro/3702945b4e871c9fad3db031b16dfe779da09f42/slides/5_1_Reporting_w_Rmarkdown.html)**       |
 | *Friday*    | *14:30 - 14:45*  | *Break*                             |
-| **Friday**   | **14:45 - 16:00** | **Wrap-up (Evaluation) & Group Session** |
+| **Friday**   | **14:45 - 16:00** | **[Wrap-up](https://rawcdn.githack.com/nika-akin/r-intro/a48e4750dff86e5fcb512509dc98af720cd61326/slides/5_2_Outlook.html) (Evaluation) & Group Session** |
 | *Friday*    | *16:00 - 16:45*  | *Open Trouble Shooting Session*     |
 
 
