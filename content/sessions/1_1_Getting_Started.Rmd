@@ -9,7 +9,7 @@ editor_options:
 ---
 layout: true 
 
-```{r child = "./content/config/sessions_setup.Rmd"}
+```{r child = "./content/config/sessions_setup.Rmd", warning=FALSE}
 ```
 
 ---
@@ -74,7 +74,7 @@ woRkshoptools::include_picture("./Veronika.png")
 [veronika.batzdorfer@kit.edu](mailto:veronika.batzdorfer@kit.edu) |
 [Personal KIT website](https://sociology.itz.kit.edu/21_138.php)
 ]
-
+ 
 ---
 
 

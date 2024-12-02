@@ -10,7 +10,7 @@ editor_options:
 
 layout: true 
 
-```{r child = "./content/config/sessions_setup.Rmd"}
+```{r child = "./content/config/sessions_setup.Rmd", warning=FALSE}
 ```
 
 ---
