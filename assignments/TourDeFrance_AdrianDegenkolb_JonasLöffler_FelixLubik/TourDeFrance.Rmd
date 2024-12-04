@@ -1,0 +1,315 @@
+---
+title: "Analysis of Tour de France historical Data"
+author: "Adrian Degenkolb, Felix Lubik, Jonas Löffler"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    css: styles.css
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(janitor)
+library(forcats)
+```
+
+In this report, we analyze historical data of the Tour de France. The data spans from 1903 until 2017 and contains the winners per year, as well as additional information about stages and their respective winners.
+The dataset used in this report was retrieved from [Tidytuesday-Github](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-04-07).
+In this report we want to analyze the following:
+
+* The evolution of historical data of the Tour de France.
+* Attributes of winners of the Tour de France.
+* Analyzing different stage types and their importance for predicting the overall winner.
+
+```{r data_loading, message=FALSE, warning=FALSE}
+tdf_winners <- as_tibble(read_csv("winners.csv"))
+tdf_stages <- as_tibble(read_csv("stages.csv")) %>%
+  mutate(
+    Type = factor(
+      case_when(
+        Type == "Flat stage" ~ "Flat Stage",
+        TRUE ~ as.character(Type)
+      )
+    )
+  )
+stage_data <- as_tibble(read_csv("stage_data.csv"))
+```
+## Evolution of historical data of the Tour de France
+The most prominent and observable change to the Tour de France over the course of its many years has to be total distance contestants have to overcome over all stages. Since the start of the Tour de France the race couldn't be held every year. Hence, when analyzing the evolution of the Tour de France, we use the edition instead of the year to properly display and evaluate trends.
+
+### Course distance across editions and its effects on contestant speeds
+This raises the question: 'How does the total length of the course affect contestant outcomes?'. In the following graph we want to compare the total distance and the velocity, with which winners of the respective Tour de France edition traveled at on average. To better visualize our data we also add linear regressions.
+
+```{r distance velocity, message=FALSE, warning=FALSE}
+# calculate median velocity
+tdf_winners$velocity <- c(tdf_winners$distance / tdf_winners$time_overall)
+
+# create new table with only the needed information
+tdf_dist_vel <- tdf_winners %>% 
+  dplyr::select("edition","distance","velocity")
+
+# add years
+tdf_dist_vel$"years" <- tdf_winners$start_date %>% format("%Y")
+tdf_dist_vel <- tdf_dist_vel %>% drop_na()
+
+# create regression lines
+lin_reg_dist_coeff <- lm(distance ~ edition, data = tdf_dist_vel)[[1]]
+
+lin_reg_dist <- lin_reg_dist_coeff[2]*tdf_dist_vel$edition +
+  lin_reg_dist_coeff[1]
+
+lin_reg_vel_coeff <- lm(velocity ~ edition, data = tdf_dist_vel)[[1]]
+
+lin_reg_vel <- lin_reg_vel_coeff[2]*tdf_dist_vel$edition +
+  lin_reg_vel_coeff[1]
+
+# add to tibble
+tdf_dist_vel$"distance_lin_reg" <- lin_reg_dist # km/ edition
+tdf_dist_vel$"velocity_lin_reg" <- lin_reg_vel #km/h /edition
+
+# plot graph
+coeff <- 1e-2
+cyan = "#37BAC9"
+red = "#db353d"
+
+ggplot(tdf_dist_vel, aes(x = edition)) + 
+  geom_point(aes(y = distance, shape = "circle"), color = cyan, size = 1.5) + 
+  geom_point(aes(y = velocity/coeff, shape = "square"), color = red, size = 1.5) +
+  geom_line(aes(y = distance_lin_reg), color = cyan, size = 1) + 
+  geom_line(aes(y = velocity_lin_reg/coeff), color = red, size = 1) + 
+  scale_y_continuous("Distance / km",
+                     sec.axis = sec_axis(~.*coeff,name="Velocity / km/h")) + 
+  ggtitle("Tour de France evolution of distance and velocity across editions") + 
+  xlab("Edition") + 
+  theme(legend.position = c(0.85,0.85),
+        axis.title.y = element_text(color = cyan),
+        axis.title.y.right = element_text(color = red),
+        legend.title=element_blank()) +
+  scale_shape_discrete(breaks=c("circle", "square"),
+                      labels=c("TdF Distance", "Avg. Speed"))
+
+```
+We notice an increase in average speed with declining course length. 
+
+### Has competition caught up?
+In sporting events it is a general rule that at some point physical limitations are met and athletes struggle to increase performance over a certain threshold. This should also result in more close times between top athletes. We explore this theory by comparing the time margins between winners and runners-up of the respective editions.
+
+```{r time margins, message=FALSE, warning=FALSE}
+
+# time margins
+
+ggplot(tdf_winners, aes(x = edition)) + 
+  geom_point(aes(y = time_margin*60, shape = "circle"), color = cyan, size = 1.5) +
+  
+  stat_smooth(aes(y = time_margin*60), method="loess", color="black", se=FALSE, formula = "y~x") +
+  
+  scale_y_continuous("Time Margins / min") + 
+  
+  ggtitle("Tour de France time margins winner to runner up arcoss editions") + 
+  
+  xlab("Edition") +
+  
+  theme(legend.title=element_blank(), legend.position = c(0.85,0.85)) +
+  
+  
+  scale_shape_discrete(breaks=c("circle"),
+                       labels=c("Time Margin"))
+
+```
+When smoothing the data it becomes apparent that the top two contestants of the Tour de France have become increasingly similar in terms of time.
+
+### Number of cyclists 
+
+Lastly we want to display the number of cyclists, who have taken part in the Tour de France. Therefore we extracted the ranks of the cyclists, who took part in the first stage each year the Tour de France was held, from the stage data. With these ranks the number of cyclists could be concluded. 
+
+
+```{r amount cyclists, message=FALSE, warning=FALSE}
+# extract amount cyclists
+
+tdf_editions <- stage_data$edition %>% unique()
+tdf_years <- stage_data$year %>% unique()
+amount_cyclists <- vector(length = length(tdf_editions))
+
+for (x in 1:length(tdf_editions)) {
+  amount_cyclists[x] <- stage_data %>%
+    filter(year == tdf_years[x], stage_results_id == "stage-1" |
+             stage_results_id == "stage-1a") %>%
+    pull(rank) %>% 
+    length()
+}
+
+am_dv_tb <- tibble(tdf_editions,tdf_years, amount_cyclists)
+
+# plot amount cyclists
+spline.d <- as.data.frame(spline(am_dv_tb$tdf_editions, am_dv_tb$amount_cyclists))
+
+ggplot(am_dv_tb, aes(x = tdf_editions)) + 
+  
+  geom_point(aes(y = amount_cyclists, shape = "circle"), color = cyan, size = 1.5) +
+  
+  xlab("Edition") +
+  
+  scale_y_continuous("Amount Cyclists") + 
+  
+  ggtitle("Tour de France over Time") + 
+  
+  theme(legend.title=element_blank(), legend.position = c(0.85,0.15)) +
+  
+  scale_shape_discrete(breaks=c("circle"),
+                       labels=c("# Cyclists"))
+
+```
+
+## Analysis of winners
+In the following, we want to analyze properties of the respective winners of the Tour de France instances.
+
+### Nationality
+Let's take a look at which nations have won the Tour de France. The following plot shows the distribution of the individual nations in frequency of Tour wins. France is the dominant nation here followed by Belgium. Jan Ulrich has achieved the only win for Germany in 1997.
+``` {r winner_per_nationality}
+#Wrangling Data (winners per nationality)
+national.data <- data.frame(table(tdf_winners$nationality))
+
+#Plot winners per nationality
+national.data %>%
+  ggplot(aes(x = fct_reorder(Var1, Freq), y = Freq)) +  # Reorder the bars
+  geom_bar(stat = "identity", fill = "#f68060", alpha = .6, width = .4) +
+  coord_flip() +
+  xlab("Nationality") +
+  ylab("Winner per Nationality") +
+  theme_bw()
+```
+
+### Age
+The following plot shows the age of the respective winners. The gray dotted line is the average age of the winners (`r round(mean(tdf_winners$age), 2)`). The highest observed age of a winner is `r max(tdf_winners$age)`, whereas the youngest winner is `r min(tdf_winners$age)` years old.
+We apply a regression to the data. The age of winners shows minimal variation, with only a slight increase over time. We conclude that age is not a significant factor.
+
+``` {r age_over_time}
+#Wrangling Data (Tour winners age per Edition)
+age.data <- data.frame(tdf_winners$edition,tdf_winners$age)
+agemean <- mean(tdf_winners$age)
+
+#Plot Tour winners age per Edition
+view(age.data)
+age.data  %>%
+  ggplot( aes(x=tdf_winners.edition,y=tdf_winners.age)) +
+  geom_point(color = cyan) +
+  ggtitle("Development of the Tour de France winners age")+
+  labs(x = "Edition")+
+  labs(y = "Age (in year)")+
+  geom_hline(yintercept = agemean, color="black", linetype="longdash")+
+  geom_smooth(method="lm", se=FALSE, formula = "y ~ x", color = cyan)
+```
+
+## Conditional probabilities of winning
+Each Tour de France consists of multiple stages (normally around 20). These stages are typically
+classified to have one of several types: `r unique(tdf_stages$Type)`.
+
+One interesting hypothesis is that winning certain stages may have a stronger impact on the overall victory than others. To explore this, we calculate the conditional probability of winning the Tour de France given that an athlete won a stage of a certain type. For each stage type $t$, we calculate the conditional probability $P(\text{winning the race}|\text{winning a stage of } t)$.
+``` {r cond_props1}
+# Merge winners data to stages by year
+stages_and_overall_winners <- tdf_stages %>%
+  mutate(year = format(Date, "%Y")) %>%
+  left_join(
+    tdf_winners %>% mutate(year = format(start_date, "%Y")),
+    by = "year"
+  ) %>%
+  mutate(stage_winner_won_race = winner_name == Winner) %>%
+  select(Type, year, stage_winner_won_race)
+
+# Calculate conditional probability of winning the race given the stage type
+conditional_props <- stages_and_overall_winners %>%
+  group_by(Type) %>%
+  summarize(p_stage_winner_winning_race = sum(stage_winner_won_race) / n())
+
+# Visualize the results
+ggplot(conditional_props, aes(x = Type, y = p_stage_winner_winning_race)) +
+  geom_bar(stat = "identity", fill = cyan) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "P(winning the Tour de France | winning a stage of certain type)", x = "Stage Type", y = "Conditional Probability")  
+```
+
+In the plot above, we examine the conditional probability of winning the Tour de France, given that an athlete has won a stage of a particular type. Some interesting observations can be made from the data:
+
+* Mountain Time Trials: The stage type "Mountain Time Trial" shows a significantly high conditional probability of 0.6154. This suggests that winning this stage type is strongly associated with overall victory. This may be due to the fact that these stages typically involve athletes with exceptional endurance and climbing ability, which are key traits for winning the overall race.
+* Individual Time Trials: Another important stage type, "Individual Time Trial", has a high conditional probability of 0.3512. Time trial stages are crucial in determining the efficiency and speed of a rider, which is often a decisive factor in the final standings.
+* Other Stage Types: The remaining stage types have lower conditional probabilities, which might indicate that winning these stages alone is less predictive of winning the overall race.
+
+These findings suggest that both mountain and time trial stages serve as strong indicators of an athlete’s potential to win the Tour de France.
+
+### Grouping Stage Types: Time Trial vs. Non-Time Trial & Mountain vs. Non-Mountain
+
+When further examining the conditional probabilities of the stages, it becomes apparent that Time Trial categories have relatively high conditional probabilities, as well as Mountain stages, when compared to Flat stages. This suggests that certain types of stages have a greater impact on the likelihood of winning the overall Tour. To better understand these differences, we will group stages into two categories: Time Trial vs Non-Time Trial, and Mountain vs Non-Mountain.
+``` {r grouping}
+# Classify stages into 'flat' and 'mountain' categories
+stages_and_overall_winners <- stages_and_overall_winners %>% mutate(
+  terrain_type = factor(
+    case_when(
+      grepl("mountain", Type, ignore.case=TRUE) ~ "Mountains",
+      grepl("flat", Type, ignore.case=TRUE) ~ "Flat",
+      grepl("plain", Type, ignore.case=TRUE) ~ "Flat",
+      TRUE ~ NA_character_
+    )
+  )
+)
+
+# Classify stages into 'time trial' and 'non time trial'
+stages_and_overall_winners <- stages_and_overall_winners %>% mutate(
+  race_type = factor(
+    case_when(
+      grepl("time trial", Type, ignore.case=TRUE) ~ "Time Trial",
+      TRUE ~ "Non Time Trial"
+    )
+  )
+)
+```
+
+In the following, we will compare the conditional probabilities of the respective groups:
+
+#### Analysis of Conditional Probabilities by Race Type
+
+The following plot visualizes the conditional probability of winning the Tour de France based on winning a stage categorized by race type. Here we compare two groups:
+
+* Time Trial Group: This group includes stages like the Individual Time Trial, Mountain Time Trial, and Team Time Trial. As expected, the "Time Trial" group shows a higher conditional probability of winning the race, suggesting that athletes who perform well in time trials are more likely to secure the overall victory. The precision and skill required in these stages indicate that winners are generally strong contenders for the overall title.
+* Non-Time Trial Group: This group includes all other stage types, such as flat and mountain stages. While winning these stages is still important, the conditional probabilities are lower than for the Time Trial group. This indicates that while success in non-time trial stages is valuable, it doesn't carry as strong an indication of overall victory compared to excelling in time trials.
+
+The analysis confirms that the "Time Trial" group plays a more significant role in predicting the Tour winner, highlighting the importance of time-trial performance in the overall race outcome.
+``` {r cond_props2}
+# Group by race type and calculate conditional probabilities
+race_type_df <- stages_and_overall_winners %>%
+  group_by(race_type) %>%
+  summarize(p_stage_winner_winning_race = sum(stage_winner_won_race) / n())
+
+# Visualize the conditional probabilities for race types
+ggplot(race_type_df, aes(x = race_type, y = p_stage_winner_winning_race)) +
+  geom_bar(stat = "identity", fill = cyan) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "P(winning the Tour de France | winning a stage of certain race group)", x = "Stage Type Group", y = "Conditional Probability")
+
+```
+
+#### Analysis of Conditional Probabilities by Terrain Type
+
+In the plot for terrain types, we observe the conditional probabilities for winning the Tour de France based on whether the athlete won a Mountain or Non-Mountain stage:
+
+* Mountain Stages: Winning a mountain stage significantly increases the probability of winning the overall Tour. The data shows a high conditional probability for athletes who have won a mountain stage, reflecting the fact that the riders who excel in the mountains are often the ones who have the strength and stamina to carry their performance through to the end of the race.
+* Non-Mountain Stages: Flat or plain stages have a lower probability of indicating overall victory. While these stages are important, the emphasis on endurance, climbing ability, and time-trial performance in the mountains and other challenging stages make mountain stage winners stronger contenders for the final title.
+
+This finding highlights the strategic importance of mountain stages in shaping the overall outcome of the Tour de France.
+``` {r cond_props3}
+# Group by terrain type and calculate conditional probabilities
+terrain_type_df <- stages_and_overall_winners %>%
+  group_by(terrain_type) %>%
+  summarize(p_stage_winner_winning_race = sum(stage_winner_won_race) / n())
+
+# Visualize the conditional probabilities for terrain types
+ggplot(drop_na(terrain_type_df), aes(x = terrain_type, y = p_stage_winner_winning_race)) +
+  geom_bar(stat = "identity", fill = cyan) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "P(winning the Tour de France | winning a stage of certain terrain group)", x = "Stage Type Group", y = "Conditional Probability")
+```
+
+## Conclusion
+First we looked at historical data. From this we were able to deduce that the average speed has increased on average as the distance has decreased over time. Furthermore, we saw that the margin between the top athletes decreased over time.
+The age of the winners does not seem to be an important indicator. More important seems to be which specific stages you have to win to win the Tour de France. Here the time trials seem to stand out in particular. Especially the mountain time trial. Looking ahead to the 2025 edition, a mountain time trial to Peyragudes will be featured, with a 61 percent probability of the Tour de France winner emerging from this stage.
