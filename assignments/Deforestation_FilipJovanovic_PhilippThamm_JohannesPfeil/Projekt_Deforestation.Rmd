@@ -1,0 +1,251 @@
+---
+title: "Auswirkungen des Verlusts an Waldfläche in Brasilien auf die globalen Temperaturen"
+output: html_document
+date: "19.01.2025"
+authors: uhrpv, ugfnr, uctiw
+---
+
+# Einführung
+In diesem R Datenanalyse - Projekt wurden die Datensätze "Global Deforestation" und 
+"Global Surface Temperatures" betrachtet. Beide sind im Github Repository "tidytuesday" zugänglich.  
+Hier der Link zu beiden Datensätzen: 
+- **https://github.com/rfordatascience/tidytuesday/tree/main/data/2021/2021-04-06
+- **https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-07-11/readme.md
+
+Zunächst wird das "Deforestation" Datenpaket betrachtet. Dieser thematisiert die Abholzung von Waldflächen national und international während der Jahre 2001 - 2013. Die dabei in Brasilien abfallenden Abholzungsflächen werden separat in der Datei "brazilian_loss.csv" angebenen. Diese wurde im Zuge des Projekts besonders intensiv analysiert, da der Regenwald sich zu großen Anteilen durch Brasilien erstreckt. Er wird umgangssprachlich oft als "Lunge der Welt" bezeichnet, und viele Umweltwissenschaftler*innen kritisieren seine Abholzung scharf, da dadurch ein wichtiger Faktor in der Stabilisierung des globalen Klimas verloren gehen soll. 
+Um diese Hypothese zu überprüfen, wird neben "Deforestation" auch das Datenpaket "Global Surface Temperatures" betrachtet. Dieses gibt die Temperaturänderungen weltweit und in verschiedenen Breitengraden von 1880 bis zu den letzten Jahren an und bezieht die Angabe der Änderung auf ein Mittel der globalen Temperaturen von 1951 - 1980. 
+
+Neben allen anderen Gründen der Abholzung in Brasilien ist die Brandrodung wegen der bei den Verbrennungsprozessen ausgestoßenen hohen CO2 - Anteilen eine der umwelttechnisch wohl schädlichsten Methoden. Deswegen soll in diesem Projekt des Weiteren untersucht werden, ob dieser Prozess der Landgewinnung im Regenwald in den letzten Jahren ab- oder zugenommen hat.
+
+## Hypothesen:
+Die folgenden Hypothesen werden wir untersuchen:
+
+1. Verlust an Waldfläche  in Brasilien von 2001-2013 hat Auswirkungen auf den globalen Temperarturanstieg von dem globalen Temperaturmittelwert von 1951-1980.
+
+2. Brandrodung in Brasilien nimmt anteilig zum Verlust an Waldfläche in Brasilien zu.
+
+Das folgende Projekt soll einen Überblick über unseres Vorgehen der Datenanalyse mit R geben.
+
+# Einlesen der Daten
+Zunächst sollen beide Datensätze in R eingelesen werden: 
+
+```{r}
+library(ggplot2)
+library(scales)
+library(broom)
+```
+
+```{r}
+if (!require(tidyverse)) install.packages("tidyverse")
+if (!require(tidytuesdayR)) install.packages("tidytuesdayR")
+if (!require(readr)) install.packages("readr")
+
+# Deforestation Data einlesen mit tidytuesdayR
+tuesdata <- tidytuesdayR::tt_load('2021-04-06')
+tuesdata <- tidytuesdayR::tt_load(2021, week = 15)
+
+brazil_loss <- tuesdata$brazil_loss
+
+# Temperaturdaten mit tidytuesdayR einlesen
+tuesdata <- tidytuesdayR::tt_load(2023, week = 28) 
+zonann_temps <- tuesdata$zonann_temps
+```
+
+# Berechnung des Netto-Waldverlusts in Brasilien
+Die brasilianischen Abholzungsdaten werden so aufbereitet, dass der Netto-Waldverlust für jedes Jahr berechnet wird.
+```{r}
+brazil_loss <- brazil_loss %>% 
+  rowwise() %>%
+  mutate(Net_Loss = sum(across(!c(entity, code, year)), na.rm = TRUE)) %>%
+  ungroup()
+
+brazil_loss_net <- brazil_loss %>%
+  select(year, Net_Loss, entity)
+```
+
+# Visualisierung: Abholzungskategorien über die Jahre
+Die Anteile der Abholzungskategorien in Brasilien im Zeitverlauf werden als Balkendiagramm dargestellt.
+
+```{r}
+# Create a barchart with stacked bars for each year
+brazil_loss_long <- brazil_loss %>%
+  pivot_longer(cols = -c(entity, code, year, Net_Loss), names_to = "category", values_to = "value")
+
+ggplot(brazil_loss_long, aes(x = year, y = value, fill = category)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Deforestation Categories Over the Years",
+       x = "Year",
+       y = "Deforestation (in Hectares)",
+       fill = "Category") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold")
+  )
+```
+Zur Darstellung des zeitlichen Verlaufs der jeweiligen Anteile, sind die Daten als Liniendiagramm visualisiert.
+```{r}
+# Calculate the proportion of each deforestation category relative to the total deforestation
+brazil_loss_long <- brazil_loss_long %>%
+  group_by(year, category) %>%
+  summarise(total_value = sum(value, na.rm = TRUE)) %>%
+  mutate(proportion = total_value / sum(total_value, na.rm = TRUE))
+
+# Plot the proportion of each deforestation category over time using a line plot
+ggplot(brazil_loss_long, aes(x = year, y = proportion, color = category)) +
+  geom_line(size = 1) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "  Proportion of Deforestation Categories Over Time",
+       x = "Year",
+       y = "Proportion of Total Deforestation",
+       color = "Category") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+  )
+```
+Für einen besseren Vergleich der Anteile im Balkendiagramm, werden die Anteile auf den Gesamtverlust ("Net_Loss") bezogen und in Prozent dargestellt.
+```{r}
+# Calculate the proportion of each deforestation category relative to the total deforestation
+brazil_loss_long <- brazil_loss_long %>%
+  group_by(year) %>%
+  mutate(proportion = total_value / sum(total_value, na.rm = TRUE))
+
+# Plot the proportion of each deforestation category over time
+ggplot(brazil_loss_long, aes(x = year, y = proportion, fill = category)) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "  Proportion of Deforestation Categories Over Time",
+       x = "Year",
+       y = "Proportion of Total Deforestation",
+       fill = "Category") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+  )
+```
+Der folgende Plot zeigt den Gesamtverlust an Waldfläche in Brasilien im betrachteten Zeitraum.
+```{r}
+# Plot der Abholzung in Brasilien über die Jahre
+ggplot(brazil_loss, aes(x = year, y = Net_Loss)) +
+  geom_line(color = "darkgreen") +
+  labs(title = "Deforestation in Brazil over the years",
+       x = "Year",
+       y = "Deforestation (in hectares)") +
+  theme_minimal()
+```
+
+# Überprüfung des Zusammenhangs zwischen Verlust an Waldfläche in Brasilien und der globalen Temperatur
+
+Für die Analyse, wird im folgenden der Datensatz der Abholzung mit dem Datensatz der globalen Temperaturen in einen gemeinsamen Kontext gesetzt. 
+Zunächst werden die beiden Datensätze zusammengeführt ("inner.join()"-Befehl).
+
+
+```{r}
+# Selektiere die Spalten "year" und "24S-EQU" aus der zonann_temps Tabelle
+temps <- zonann_temps %>%
+  select(Year, `24S-EQU`, Glob)
+# Rename the column "Year" to "year" in temps
+temps <- temps %>%
+  rename(year = Year)
+# Merge temps and brazil_loss using the column Year
+merged_data <- inner_join(temps, brazil_loss_net, by = "year")
+merged_data
+```
+
+Als nächstes visualisieren wir wie sich die Temperatur in der Region von der 24° südlichen Breite (24S) bis zum Äquator (EQU) im Vergleich zur globalen Temperaturanomalie im Laufe der Zeit verhält. Das veranschaulichen wir mittels eines Liniendiagramms.
+In diesem Breitengradintervall ist auch Brasilien beziehungsweise der Regenwald lokalisiert.
+Da der Datensatz die Temperaturen nicht nach Ländern gliedert, sondern nach Breitengradbereichen, wird diese Vorgehensweise verwendet.
+```{r}
+library(ggplot2)
+
+# Plot the columns 24S-EQU and Glob against year
+ggplot(data = merged_data, aes(x = year)) +
+  geom_line(aes(y = `24S-EQU`, color = "24S-EQU"), size = 1) +
+  geom_line(aes(y = Glob, color = "Glob"), size = 1, linetype = "dashed") +
+  scale_color_manual(values = c("24S-EQU" = "blue", "Glob" = "red")) +
+  labs(title = "Temperature Changes Over Time",
+       subtitle = "Comparing 24S-EQU and Global Temperature Anomalies",
+       x = "Year",
+       y = "Temperature Anomaly (°C)",
+       color = "Legend") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+  )
+```
+
+
+# Plot the columns 24S-EQU and Net_Loss against year with two y-axes
+Zum Vergleich der Entwicklungen der Waldfläche und der Temperaturen über der Zeit, werden beide Größen in einem Lininediagramm mit zwei Skalen auf der y-Achse dargestellt.
+```{r}
+library(ggplot2)
+library(scales)
+
+# Create a plot with two y-axes
+ggplot(data = merged_data, aes(x = year)) +
+  geom_line(aes(y = `24S-EQU`, color = "24S-EQU"), size = 1) +
+  geom_line(aes(y = Net_Loss / 5000000, color = "Net_Loss"), size = 1, linetype = "dashed") +
+  scale_y_continuous(
+    name = "Temperature in 24S-EQU (°C)",
+    sec.axis = sec_axis(~ . * 5000000, name = "Net Loss (in Hectares)")
+  ) +
+  scale_color_manual(values = c("24S-EQU" = "blue", "Net_Loss" = "brown")) +
+  labs(title = "24S-EQU Temperature Anomaly and Net Loss Over Time",
+       x = "Year",
+       color = "Legend") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+    axis.title.y = element_text(color = "blue", size = 14),
+    axis.title.y.right = element_text(color = "brown", size = 14),
+    axis.text.y.right = element_text(color = "brown"),
+    axis.text.y = element_text(color = "blue")
+  )
+```
+
+Für die statistische Überprüfung der Hypothese, wird die Korrelation zwischen der Abholzung in Brasilien und der Temperaturabweichung im Breitengradintervall 24S-EQU berechnet. 
+
+```{r}
+# Berechne die Korrelation zwischen Net_Loss und 24S-EQU
+correlation_pearson <- cor.test(merged_data$Net_Loss, merged_data$`24S-EQU`, method = "pearson", use = "complete.obs")
+correlation_pearson
+correlation_test <- cor.test(merged_data$Net_Loss, merged_data$`24S-EQU`, method = "pearson", use = "complete.obs")
+correlation_table <- tidy(correlation_test)
+print(correlation_table)
+```
+Diese Auswertuung wird auch für den Zusammenhang zwischen der Abholzung und der globalen Temperatur durchgeführt.
+```{r}
+# Berechne die Korrelation zwischen Net_Loss und 24S-EQU
+correlation_pearson <- cor.test(merged_data$Net_Loss, merged_data$Glob, method = "pearson", use = "complete.obs")
+correlation_pearson
+correlation_test <- cor.test(merged_data$Net_Loss, merged_data$Glob, method = "pearson", use = "complete.obs")
+correlation_table <- tidy(correlation_test)
+print(correlation_table)
+```
+
+
+# Fazit und Ausblick
+
+
+Anhand der Daten können wir nicht feststellen, dass es eine signifikante Korrelation zwischen der Temperaturanomalie in der Region 24S-EQU und dem Nettoverlust in Brasilien im Laufe der Zeit gibt. 
+
+Das Fehlen einer signifikanten Korrelation könnte auf den begrenzten zeitlichen Umfang der Daten zurückzuführen sein. Eine Ausweitung des zeitlichen Umfangs oder die Berücksichtigung zusätzlicher Faktoren könnte weitere Erkenntnisse über die Beziehung zwischen diesen Variablen liefern.
+
+Die schwache Korrelation, sowie die hohe Irrtumswahrscheinlichkeit $\mathrm{p} \approx 40\,\%$ für einen potentiellen Zusammenhang zwischen dem Gesamtverlust an Waldfläche in Brasilien und der Temperaturabweichung im untersuchten Breitengradintervall lassen sich dadurch erklären, dass viele andere Landflächen, wie zum Beispiel Afrika, ebenfalls auf diesem Bretiengradintervall liegen. 
+
+Dadurch lassen sich potentielle Auswirkungen auf die Temeperaturabweichung im untersuchten Breitengradintervall entweder gar nicht oder eventuell sehr eingeschränkt isoliert auf den Verlust von Waldfläche in Brasilien zurückführen.
+
+Analog lässt sich auch der schwache Zusammenhang zwischen Abholzung in Brasilien und der globalen Temperatur erkennen:
+
+Die Atmosphäre der Erde ist ein großes und komplexes System, welches durch eine große Quantität an Faktoren beeinflusst wird. Entsprechend fließt der ökologische Fußabdruck vieler Länder in diese Messungen mit ein.
+Eine weiterer Erklärungsansatz für die oben genannten geringen statistischen Signinfikanzen könnte der untersuchte Zeitraum darstellen. 
+
+Für eine genauere Untersuchung sollte ein weitaus größerer Zeitraum betrachtet werden, da sich klimatische Veränderungen erst nach mehreren Jahrzehnten messbar erfasst werden können.
+
+Neben dem zetilichen Faktor könnte auch die geographische Inhomogenität der Temperaturabweichung für den schwachen Zusammenhang verantwortlich sein. Die Äquator nahen Gebiete der Erde erwärmen sich eventuell weniger stark als die polareren Gebiete. 
+Des Weiteren ist zu erkennen, dass die Brandrodung in Brasilien über die Jahre zurückgegangen ist. Eventuell ist die Notwendigkeit der Bereitstellung großer Flächen für Agrikulturelle Nutzung durch Brandrodung weniger relevant, je länger die Abholzung andauert.
+
+Zusammenfassend können wir festhalten, dass unsere Hypothese, höchstens eingeschränkt gültig ist.
+
+
