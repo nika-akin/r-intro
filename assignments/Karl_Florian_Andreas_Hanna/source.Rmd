@@ -1,0 +1,370 @@
+---
+title: "Source Code"
+---
+
+## Data Exploration
+``` {r message=FALSE, fig.align='center'}
+rm(list = ls())
+
+library(remotes)
+options(repos = "https://cloud.r-project.org/")
+options(scipen = 999)
+if (!require("easypackages")) {
+  install.packages("easypackages")
+  library(easypackages)
+} else {
+  library(easypackages)
+}
+packages(
+  "tidyverse",
+  "tidytuesdayR",
+  "dplyr",
+  "readr",
+  prompt = FALSE
+)
+
+tuesday_chess <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-10-01/chess.csv')
+
+# Filter and select relevant columns
+chess <- tuesday_chess %>%
+  filter(rated == TRUE) %>% # Fix logical comparison
+  select(winner)
+
+# Converts the chess table of column winner into a 3 columns, which count the
+# amount of times a game ended with white winning, black winning or
+# the game beeing drawn
+outcomes <- table(chess$ winner)
+
+outcome_percentages <- prop.table(outcomes) * 100
+
+pie(outcome_percentages,
+    labels = paste(
+      names(outcome_percentages),
+      "(", round(outcome_percentages, 1), "%)", sep = ""),
+    col = c("lightblue", "lightgreen", "lightcoral"),
+    main = "Chess Game Outcome Percentages")
+```
+
+### Rating distribution in the lichess dataset
+```{r message=FALSE, fig.align='center'}
+rm(list = ls())
+
+library(remotes)
+options(repos = "https://cloud.r-project.org/")
+options(scipen = 999)
+if (!require("easypackages")) {
+  install.packages("easypackages")
+  library(easypackages)
+} else {
+  library(easypackages)
+}
+packages(
+  "tidyverse",
+  "tidytuesdayR",
+  "dplyr",
+  "readr",
+  prompt = FALSE
+)
+
+tuesday_chess <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-10-01/chess.csv')
+
+# Filter and select relevant columns
+chess <- tuesday_chess %>%
+  filter(rated == TRUE) %>% # Fix logical comparison
+  select(white_id, white_rating, black_id, black_rating, start_time)
+
+player_ratings <- chess %>%
+  pivot_longer(
+    cols = c(white_rating, black_rating),
+    names_to = "pivot_label",
+    values_to = "rating"
+  ) %>%
+  mutate(player_id = ifelse(pivot_label == "white_rating", white_id, black_id)) %>%
+  select(player_id, rating, start_time) %>%
+  group_by(player_id) %>%
+  summarise(
+    max_rating = max(rating),
+    min_rating = min(rating),
+    avg_rating = mean(rating),
+    rating = rating[which.max(start_time)],
+    games_played = n()
+  ) %>%
+  ungroup()
+
+ggplot(player_ratings, aes(x = rating)) +
+  geom_histogram(
+    aes(y = after_stat(count) / sum(after_stat(count)) * 100),
+    binwidth = 100,
+    fill = "steelblue",
+    color = "black",
+    alpha = 0.7
+  ) +
+  labs(
+    title = "Histogram of Average Player Ratings",
+    x = "Rating",
+    y = "Percentage of Players"
+  ) +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+  theme_minimal()
+```
+
+## Hypothesis 1
+
+### Correlation of rating and the impact of the first move advantage
+
+```{r message=FALSE, fig.align='center'}
+#### Hypothesis
+# 2. At lower ratings the difference between black and white is neglegible
+
+rm(list = ls())
+
+library(remotes)
+options(repos = "https://cloud.r-project.org/")
+options(scipen = 999)
+if (!require("easypackages")) {
+  install.packages("easypackages")
+  library(easypackages)
+} else {
+  library(easypackages)
+}
+packages(
+  "tidyverse",
+  "tidytuesdayR",
+  "dplyr",
+  "readr",
+  "weights",
+  prompt = FALSE
+)
+
+tuesday_chess <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-10-01/chess.csv')
+
+chess <- tuesday_chess %>%
+  dplyr::filter(rated == TRUE) %>%
+  dplyr::filter(winner != "draw") %>%
+  dplyr::select(winner, white_rating, black_rating) %>%
+  dplyr::mutate(game_rating = (white_rating + black_rating) * 0.5)
+
+bin_size <- 100
+# Correct calculation of avg_rating
+white_win_data <- chess %>%
+  mutate(
+    avg_rating = (white_rating + black_rating) / 2,  # Average rating for grouping
+    # Define breaks with "nice" round numbers
+    rating_bin = cut(avg_rating,
+                     breaks = seq(600, max(avg_rating, na.rm = TRUE) + bin_size, by = bin_size),
+                     include.lowest = TRUE)
+  ) %>%
+  group_by(rating_bin) %>%
+  summarise(
+    white_win_rate = sum(winner == "white") / n() * 100,  # White win percentage
+    total_games = n(),
+    avg_rating = mean(avg_rating)  # Calculate average rating for each bin
+  ) %>%
+  ungroup()
+
+white_win_data_significant <- white_win_data %>%
+  filter(total_games >= 200) %>%
+  mutate(rating_bin = droplevels(rating_bin))
+
+# Convert bins to strings in the format "800-900", "900-1000", etc. without scientific notation
+bins_cleaned <- gsub("\\(|\\)|\\[|\\]", "", levels(white_win_data_significant$rating_bin)) %>%
+  gsub(",", "-", .) %>%
+  strsplit("-") %>%
+  lapply(function(x) paste0(format(as.numeric(x), scientific = FALSE, trim = TRUE), collapse = "-")) %>%
+  unlist()
+
+ggplot(white_win_data_significant, aes(x = avg_rating, y = white_win_rate)) +
+  geom_col(aes(alpha = total_games), fill = "steelblue") +  # Set alpha based on total_games
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Reference line at 50%
+  geom_text(aes(label = total_games),
+            vjust = -0.5,  # Position the text above the bars
+            color = "black",
+            size = 3.5) +  # Adjust text size
+  geom_smooth(
+    aes(weight = total_games),  # Weight the interpolation by the total number of games
+    method = "lm",              # Use linear regression
+    color = "darkred",          # Set line color
+    se = TRUE                   # Show confidence interval
+  ) +
+  labs(
+    title = "White Win Percentage by Rating with Weighted Interpolation",
+    x = "Average Rating (binned)",
+    y = "White Win Percentage (%)",
+    alpha = "Total Games"  # Add legend for alpha
+  ) +
+  scale_x_continuous(
+    breaks = white_win_data_significant$avg_rating,  # Use midpoints for breaks
+    labels = bins_cleaned  # Map custom labels to the breaks
+  ) +
+  scale_alpha_continuous(range = c(0.5, 1)) +  # Adjust alpha scaling range
+  coord_cartesian(ylim = c(40, 60)) +  # Set the visible y-axis range without clipping
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+# Compute weighted correlation on the filtered dataset
+weighted_corr <- wtd.cor(white_win_data$avg_rating, white_win_data$white_win_rate, weight = white_win_data$total_games)
+print(weighted_corr)
+```
+
+### Influence of time control on white's first move advantage
+
+```{r message=FALSE, fig.align='center'}
+rm(list = ls())
+
+library(remotes)
+options(repos = "https://cloud.r-project.org/")
+options(scipen = 999)
+if (!require("easypackages")) {
+  install.packages("easypackages")
+  library(easypackages)
+} else {
+  library(easypackages)
+}
+packages(
+  "tidyverse",
+  "tidytuesdayR",
+  "dplyr",
+  "readr",
+  "weights",
+  prompt = FALSE
+)
+
+tuesday_chess <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-10-01/chess.csv')
+
+chess <- tuesday_chess %>%
+  dplyr::filter(rated == TRUE) %>%
+  dplyr::filter(winner != "draw") %>%
+  dplyr::group_by(time_increment) %>%
+  summarise(
+    white_wins = sum(winner == "white"),
+    black_wins = sum(winner == "black"),
+    total_games = white_wins + black_wins,
+    white_win_rate = (white_wins / total_games) * 100.0,
+  ) %>%
+  dplyr::ungroup() %>%
+  # Remove unimportant time controls
+  dplyr::filter(total_games > 100) %>%
+  # Sort by time controls
+  tidyr::separate(time_increment, into = c("base_time", "increment"), sep = "\\+", convert = TRUE) %>%
+  arrange(base_time, increment) %>%
+  mutate(
+    time_increment = paste0(base_time, "+", increment),
+    time_increment = factor(time_increment, levels = unique(paste0(base_time, "+", increment)))
+  ) %>%
+  select(-base_time, -increment)
+
+
+
+ggplot(chess, aes(x = time_increment, y = white_win_rate)) +
+  geom_col(aes(alpha = total_games^(0.125), fill = "steelblue")) +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "red") +  # Reference line at 50%
+  geom_text(aes(label = total_games),
+            vjust = -0.5,  # Position the text above the bars
+            color = "black",
+            size = 3.5) +  # Adjust text size
+  labs(
+    title = "White Win Percentage by Time Increment",
+    x = "Time Increment",
+    y = "White Win Percentage"
+  ) +
+  coord_cartesian(ylim = c(40, 60)) +  # Set the visible y-axis range without clipping
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "none"  # Removes the legend
+  )
+```
+
+## Hypothesis 2
+
+### Games with higher rating more likely end with resign than games with lower rating
+
+``` {r message=FALSE, fig.align='center'}
+rm(list = ls())
+
+library(remotes)
+options(repos = "https://cloud.r-project.org/")
+if (!require("easypackages")) {
+  install.packages("easypackages")
+  library(easypackages)
+} else {
+  library(easypackages)
+}
+packages(
+  "tidyverse",
+  "tidytuesdayR",
+  "dplyr",
+  "readr",
+  prompt = FALSE
+)
+
+# Load necessary libraries
+library(dplyr)
+library(readr)
+
+# Load the dataset
+tuesday_chess <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-10-01/chess.csv')
+
+# Filter and select relevant columns
+chess <- tuesday_chess %>%
+  filter(rated == TRUE) %>% # Fix logical comparison
+  select(victory_status, white_rating, black_rating)
+
+# Get the maximum rating
+white_max_rating <- max(chess$white_rating, na.rm = TRUE)
+print(white_max_rating)
+
+black_max_rating <- max(chess$black_rating, na.rm = TRUE)
+print(black_max_rating)
+
+# Calculate the average rating for each game and categorize
+chess <- chess %>%
+  mutate(
+    avg_rating = (white_rating + black_rating) / 2, # Add avg_rating
+    rating_category = cut(
+      avg_rating,
+      breaks = c(0, 1400, 1800, Inf), # Define rating bins
+      labels = c("Low", "Medium", "High")
+    )
+  )
+
+# View summary of rating categories
+summary(chess$rating_category)
+
+# Group by rating category and victory status, calculate proportions
+proportions <- chess %>%
+  group_by(rating_category, victory_status) %>%
+  dplyr::summarize(count = n(), .groups = 'drop') %>%
+  group_by(rating_category) %>%
+  mutate(proportion = count / sum(count))
+
+# View the proportions table
+print(proportions)
+
+# Load ggplot2
+library(ggplot2)
+
+# Create a bar plot of proportions with counts as labels
+ggplot(proportions, aes(x = rating_category, y = proportion, fill = victory_status)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_text(
+    aes(label = count),
+    position = position_dodge(width = 0.9),
+    vjust = -0.5,
+    size = 3.5
+  ) +
+  labs(
+    title = "Proportion and Count of Victory Status by Rating Category",
+    x = "Rating Category",
+    y = "Proportion",
+    fill = "Victory Status"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+    axis.text = element_text(size = 12),
+    axis.title = element_text(size = 14)
+  )
+
+
+```

@@ -1,0 +1,9 @@
+---
+title: "About this document"
+---
+
+# Contributors
+- Karl Sassie (2362789)
+- Florian Heinecke-Drescher (1996696)
+- Andreas Kammerer (2213463)
+- Hanna Schweig (2488253)
