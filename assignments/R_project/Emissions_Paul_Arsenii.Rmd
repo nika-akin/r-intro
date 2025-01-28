@@ -1,0 +1,798 @@
+---
+title: "Emissions_Data"
+author: "Paul Reuß & Arsenii Mokrov"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    toc_float: true
+    code_folding: hide
+    theme: flatly
+    highlight: tango
+    code_download: true
+    df_print: paged
+  word_document:
+    toc: true
+    toc_depth: '3'
+  pdf_document:
+    toc: true
+    toc_depth: '3'
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+options(scipen = 15)
+
+```
+
+```{r load-wrangle-data, echo = FALSE}
+library(tidyverse)
+library(dplyr)
+
+
+#source_data <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-05-21/emissions.csv')
+
+#Same data, except for conversion of "cubic Feet" to "Cubic Meters" for clarification purposes
+file_path <- "~/Desktop/R_Project/emissions.csv" 
+emissions <- read.csv(file_path, stringsAsFactors = FALSE)
+Company <- unique(emissions[c("parent_entity", "parent_type", "commodity")])
+
+#Topic 1 data Wrangle and Prep
+prod_year_source_raw <- unique(emissions[c("commodity", "year", "production_value")])
+prod_year_source <- prod_year_source_raw %>%
+  group_by(commodity, year) %>%
+  summarise(sum_prod_val = sum(production_value))
+
+prod_year_1940 <- prod_year_source %>%
+  filter(year >= 1940 & year <= 2022)
+
+prod_year_exc <- prod_year_source %>% 
+  filter(year >= 1940 & year <= 2022) %>%
+  filter(!commodity %in% c("Natural Gas", "Oil & NGL"))
+
+prod_year_raw <- unique(emissions[c("year", "production_value")])
+total_prod_year <- prod_year_raw %>%
+  group_by(year) %>%
+  summarise(sum_prod_val = sum(production_value))
+total_prod_year$commodity <- c("total")
+
+total_prod_joined <- bind_rows(prod_year_source, total_prod_year)
+
+sum_data_1922_raw <- unique(emissions[c("commodity", "year", "production_value")])
+sum_data_1922 <- sum_data_1922_raw %>%
+  group_by(commodity, year) %>%
+  summarise(sum_prod_val = sum(production_value)) %>%
+  filter(year >= 1900 & year <= 1922)
+
+sum_data_2022_raw <- unique(emissions[c("commodity", "year", "production_value")])
+sum_data_2022 <- sum_data_2022_raw %>%
+  group_by(commodity, year) %>%
+  summarise(sum_prod_val = sum(production_value)) %>%
+  filter(year >= 2000 & year <= 2022)
+
+#Topic 2 data Wrangle and Prep
+emiss_year_source_raw <- unique(emissions[c("commodity", "year", "total_emissions_MtCO2e")])
+emiss_year_source <- emiss_year_source_raw %>%
+  group_by(commodity, year) %>%
+  summarise(sum_emiss_val = sum(total_emissions_MtCO2e))
+
+emiss_year_1950 <- emiss_year_source %>%
+  filter(year >= 1950 & year <= 2022)
+
+emiss_year_raw <- unique(emissions[c("year", "total_emissions_MtCO2e")])
+total_emiss_year <- emiss_year_raw %>%
+  group_by(year) %>%
+  summarise(sum_emiss_val = sum(total_emissions_MtCO2e))
+
+total_emiss_year$commodity <- c("total")
+
+total_emiss_joined <- bind_rows(emiss_year_source, total_emiss_year)
+
+total_emiss_prod <- bind_rows(total_emiss_year, total_prod_year) %>%
+  pivot_longer(cols = c(sum_prod_val, sum_emiss_val), 
+               names_to = "category", 
+               values_to = "value") %>%
+  filter(!value %in% c(NA))
+
+```
+
+# Introduction
+
+In our Project we want to present and compare production and emission values of different companies which are either state owned, investor owned or so called "nation state" owned over the time frame of 1854 until 2022. The companies in question all produce different resources, some of which are oil, gas, cement and a variety of different forms of coal. In short: They produce fossil fuel and related materials.
+
+Especially in a modern world where the CO2 footprint is of importance and reduction of CO2 production is essential to comply with the goals set by leading scientists, taking a look at historical data can unravel some trends that continue to this date.
+
+## Used Data
+
+The data used for this project stems from the GitHub Tidytuesday repository and was collected and compiled by Carbon Majors. In this analysis, we used the medium granularity dataset, which includes year, entity, entity type, commodity, commodity production, commodity unit, and total emissions but excludes the reporting entity, data point source, product emissions, and the four different operational emissions: flaring, venting, own fuel use, and fugitive methane.
+
+## Analysed Companies
+
+The first table revolves around different companies which are producing different commodities and CO2 - emissions, their ownership and the type of commodity. It provides a short overview of all the analyzed companies, but excludes numerical data points as those would be to unwieldly. In total, 122 companies were analyzed in this dataset, differentiating between seven different commodities.   
+ 
+```{r}
+library(data.table)
+library(DT)
+
+datatable(Company)
+
+```
+
+# Resource production Data
+The first chapter revolves around the production of each resource per year. Important to note is, that not all resources were produced from 1854 onwards, but some were only discovered in later years. Also, when looking at the data it should be noted that different commodities were be produced in different units but still plotted in the same chart. The reason for this is simply to highlight the difference in production capacity of each resource type per year. The different used metrics were:
+
+1. Coal and cement production were measured in million tonnes/year.
+
+2. Natural Gas production was measured in bcm/year.
+
+3. Oil production was measured in bbl/year
+
+## Production per resource type
+
+The first graph illustrates the annual production values of various commodities over time, highlighting key items such as different coal types (Anthracite, Bituminous, Sub-Bituminous, Lignite, and Thermal Coal), Natural Gas, Oil & NGL (Natural Gas Liquids), and Cement. The production value of Oil & NGL, represented by the yellow line, exhibits a pronounced increase beginning in the mid-20th century, establishing it as the leading contributor to global energy and industrial production.
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+
+  economist_colors <- c(
+  "Thermal Coal" = "#E3120B",  # Red
+  "Anthracite Coal" = "#6A1B9A",
+  "Lignite Coal" = "#FFEB3B",
+  "Bituminous Coal" = "#FF5722",
+  "Metallurgical Coal" = "#F4A6A0",
+  "Sub-Bituminous Coal" = "#8B4513",
+  "Oil & NGL" = "#0056A3",   # Blue
+  "Natural Gas" = "#008F47",   # Green
+  "Cement" = "#A5A5A5"  # Grey
+  )
+
+prod_year_source$commodity <- factor(prod_year_source$commodity, levels = names(economist_colors))
+
+# Plot using plotly
+plot_ly(prod_year_source, x = ~year, y = ~sum_prod_val, color = ~commodity, 
+        colors = economist_colors, type = 'scatter', mode = 'lines') %>%
+  layout(
+    title = "Production value per year per resource type",
+    xaxis = list(title = "Year"),
+    yaxis = list(title = "Production Value"),
+    legend = list(title = list(text = "resource type"))
+  )
+```
+During this timeframe, listed commodities, particularly oil, natural gas, and coal, experienced substantial growth in production value, paralleling the economic expansion, industrialisation, and urbanisation that followed World War II. The preeminence of oil from the mid-20th century onward underscores its critical importance in energy generation, transportation, and industrial applications. Notably, Bituminous Coal (brown line) and Thermal Coal (gray line) demonstrated significant growth throughout the industrialisation era (1900–1950), reaching peaks in the mid to late 20th century, which corresponds with the extensive utilisation of coal for electricity generation and heavy industry.
+
+
+## Production values from 1940 to 2022
+
+This revised graph emphasises the production values of various commodities from 1940 onward. The production value of Oil & NGL (yellow line) shows a remarkable surge post-1940, surpassing all other commodities by the late 20th century, indicative of the increasing global reliance on oil for transportation, industrial activities, and energy generation. This trend of high production value persists into the 21st century. Following 1940, the global energy landscape underwent a gradual transition from coal to oil and gas, propelled by technological innovations, economic development, and a rising demand for liquid fuels and cleaner energy alternatives.
+
+```{r}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+  economist_colors <- c(
+  "Thermal Coal" = "#E3120B",  # Red
+  "Anthracite Coal" = "#6A1B9A",
+  "Lignite Coal" = "#FFEB3B",
+  "Bituminous Coal" = "#FF5722",
+  "Metallurgical Coal" = "#F4A6A0",
+  "Sub-Bituminous Coal" = "#8B4513",
+  "Oil & NGL" = "#0056A3",   # Blue
+  "Natural Gas" = "#008F47",   # Green
+  "Cement" = "#A5A5A5"  # Grey
+  )
+
+prod_year_1940$commodity <- factor(prod_year_1940$commodity, levels = names(economist_colors))
+
+#Plot 1940 onwards for showcasing increase after Industrialisation
+plot_ly(prod_year_1940, x = ~year, y = ~sum_prod_val, color = ~commodity, colors = economist_colors, type = 'scatter', mode = 'lines') %>%
+  layout(
+    title = "Production per year per resource type from 1940",
+    xaxis = list(title = "Year"),
+    yaxis = list(title = "production value"),
+    legend = list(title = list(text = "resource type"))
+  )
+```
+## Production Values without Oil, NGL and Gas
+
+This graph illustrates the annual production value of various commodities, excluding Oil, NGL, and Gas, thereby offering a more focused perspective on resources such as coal in its various forms, cement, and metallurgical products.
+
+```{r}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+  economist_colors <- c(
+  "Thermal Coal" = "#E3120B",  # Red
+  "Anthracite Coal" = "#6A1B9A",
+  "Lignite Coal" = "#FFEB3B",
+  "Bituminous Coal" = "#FF5722",
+  "Metallurgical Coal" = "#F4A6A0",
+  "Sub-Bituminous Coal" = "#8B4513",
+  "Oil & NGL" = "#0056A3",   # Blue
+  "Natural Gas" = "#008F47",   # Green
+  "Cement" = "#A5A5A5"  # Grey
+  )
+
+prod_year_1940$commodity <- factor(prod_year_1940$commodity, levels = names(economist_colors))
+#Plot all commodities excluding Gas and Oil due tu overwhelming superiority
+plot_ly(prod_year_exc, x = ~year, y = ~sum_prod_val, color = ~commodity, colors = economist_colors, type = 'scatter', mode = 'lines') %>%
+  layout(
+    title = "Production value per year per resource type excluding Oil, NGL and Gas",
+    xaxis = list(title = "Year"),
+    yaxis = list(title = "production value"),
+    legend = list(title = list(text = "resource type"))
+  )
+```
+A comprehensive analysis of the observed trends shows:
+
+1. ⁠ ⁠Among the excluded commodities, Bituminous coal stands out as the leading product, experiencing a significant increase in production beginning in the 1960s, reaching its peak around 2010, followed by a slight decline. This trend underscores its ongoing relevance in energy generation and industrial applications, particularly in developing nations that depend on coal-fired power facilities.
+
+2.  ⁠The production value of cement has seen substantial growth since the 1980s, with a notable acceleration in the 2000s. This surge is a mark of a global infrastructure and construction boom, as well as rapid urbanisation and industrialisation in developing contries.
+
+3.  ⁠Thermal coal displays a gradual increase simular to that of Bituminous coal, although it maintains a lower overall production value, reflecting its specific applications within certain energy sectors.
+
+4.  ⁠The production of metallurgical coal has shown consistent growth, closely linked to advancements in infrastructure and industrial development.
+
+5.  ⁠In contrast, Lignite coal has experienced limited growth relative to other coal types, which can be attributed to its specialised applications.
+
+6.  ⁠Both Anthracite Coal and Sub-Bituminous Coal reveal relatively stable trends, suggesting lower production values and minimal growth when compared to other commodities.
+
+These observations indicate that, despite a global movement towards cleaner energy sources, coal, particularly Bituminous and Thermal Coal, continues to play a crucial role in numerous economies. Additionally, the growth in cement production reflects an ongoing demand for construction materials, driven by urbanisation, industrialisation and infrastructure initiatives. However, the relatively stable trends for certain coal types and metallurgical products imply a potential shift in resource priorities over time, with a focus on materials that are in higher demand and offer greater versatility.
+
+## Production values including total production
+
+Total Production Value: Since the mid-20th century, there has been a significant increase in total production value, that serves as an indication of the overall growth of various resources. This increase is primarily attributed to Oil & NGL and Natural Gas, which are the predominant contributors to the total. It is essential to note, that the combined units varied, meaning that the figure does not reflect an exact value but rather illustrates the general trend over the years.
+```{r}
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+  economist_colors <- c(
+  "Thermal Coal" = "#E3120B",  # Red
+  "Anthracite Coal" = "#6A1B9A",
+  "Lignite Coal" = "#FFEB3B",
+  "Bituminous Coal" = "#FF5722",
+  "Metallurgical Coal" = "#F4A6A0",
+  "Sub-Bituminous Coal" = "#8B4513",
+  "Oil & NGL" = "#0056A3",   # Blue
+  "Natural Gas" = "#008F47",   # Green
+  "Cement" = "#F5F5DC",  # Grey
+  "total" = "#A5A5A5"
+  )
+
+prod_year_1940$commodity <- factor(prod_year_1940$commodity, levels = names(economist_colors))
+
+
+#Plot all commodities including total production
+plot_ly(total_prod_joined, x = ~year, y = ~sum_prod_val, color = ~commodity, colors = economist_colors, type = 'scatter', mode = 'lines') %>%
+  layout(
+    title = "Production value per year per resource type including total",
+    xaxis = list(title = "Year"),
+    yaxis = list(title = "production value"),
+    legend = list(title = list(text = "resource type"))
+  )
+
+```
+# Comparison of production between early 20th and 21st century
+
+These charts illustrate the summarized produced commodities in 1900 - 1922 against 2000 - 2022. They showcase the progress in production that has been achieved in the last century magnifying the enormous change that has happened. Especially when taking a closer look at the percentage change between the production in the 20th century compared to the 21st century, a clear shift away from coal and towards Oil and NGL can be observed.
+
+```{r}
+library(dplyr)
+library(plotly) 
+        
+#1. Aggregate the data
+sum_data_1922_1 <- sum_data_1922 %>%
+  group_by(commodity) %>%
+  summarise(total_production = sum(sum_prod_val, na.rm = TRUE)) %>%
+  arrange(desc(total_production))
+
+# 2. Select the top 8 commodities
+top_commodities <- sum_data_1922_1 %>% 
+  slice_head(n = 8)
+
+# Calculate percentages
+top_commodities <- top_commodities %>%
+  mutate(percent = total_production / sum(total_production) * 100)
+
+# 3. Create the interactive pie chart
+pie_chart <- plot_ly(
+  data = top_commodities,
+  labels = ~commodity,
+  values = ~total_production,
+  type = 'pie',
+  textinfo = 'label+percent',       # Display both label and percent on the pie
+  insidetextorientation = 'horizontal', # Make text inside horizontal
+  hoverinfo = 'label+percent+value', # Tooltip shows label, percent, and value
+  marker = list(colors = colorRampPalette(c(
+  "#0056A3",      # Natural Gas
+  "#FF5722",       # Oil & NGL
+  "#008F47",     # Bituminous coal
+  "#FF0000",       # Cement
+  "lightblue",  # Metallurgical Coal
+  "#FFEB3B", # Sub - Bituminous coal
+  "grey",        # Lignite Coal
+  "purple",     # Thermal Coal
+  "pink"        # Anthracite Coal
+))(8)) # Custom colors
+) %>%
+  layout(
+    title = "Top 8 Commodities by Total Production",
+    showlegend = TRUE,
+    legend = list(title = list(text = "resource type")),
+    margin = list(l = 50, r = 50, t = 50, b = 50) # Add padding for labels
+  )
+
+# Display the pie chart
+pie_chart
+```
+
+
+```{r}
+library(dplyr)
+library(plotly) 
+        
+#1. Aggregate the data
+sum_data_2022_1 <- sum_data_2022 %>%
+  group_by(commodity) %>%
+  summarise(total_production = sum(sum_prod_val, na.rm = TRUE)) %>%
+  arrange(desc(total_production))
+
+# 2. Select the top 8 commodities
+top_commodities <- sum_data_2022_1 %>% 
+  slice_head(n = 9)
+
+# Calculate percentages
+top_commodities <- top_commodities %>%
+  mutate(percent = total_production / sum(total_production) * 100)
+
+# 3. Create the interactive pie chart
+pie_chart2 <- plot_ly(
+  data = top_commodities,
+  labels = ~commodity,
+  values = ~total_production,
+  type = 'pie',
+  textinfo = 'label+percent',       # Display both label and percent on the pie
+  insidetextorientation = 'horizontal', # Make text inside horizontal
+  hoverinfo = 'label+percent+value', # Tooltip shows label, percent, and value
+  marker = list(colors = colorRampPalette(c(
+  "#008F47",      # Natural Gas
+  "#0056A3",       # Oil & NGL
+  "#FF5722",     # Bituminous coal
+  "#81C784",       # Cement
+  "#FFEB3B",  # Metallurgical Coal
+  "lightblue", # Sub - Bituminous coal
+  "grey",        # Lignite Coal
+  "#FF0000",     # Thermal Coal
+  "pink",        # Anthracite Coal
+  "purple"
+))(9)) # Custom colors
+) %>%
+  layout(
+    title = "Top 9 Commodities by Total Production",
+    showlegend = TRUE,
+    legend = list(title = list(text = "resource type")),
+    margin = list(l = 50, r = 50, t = 50, b = 50) # Add padding for labels
+  )
+
+# Display the pie chart
+pie_chart2
+```
+However, the showcased percentage points and thus the indicated lower production of all commodities revolving arround coal are misleading due to the exponential increase in total production that occurred over the last century. As a matter of fact, the coal production did increase from the 20th towards the 21st century. However it just did not increase in exponential fashion but more linear. Thus, a more detailed analysis shows:
+
+1. The percentage of Oil and NGL production is lower in 21st century compared to the 20th century. This by no means says, that the total production is reduced, but it showcases just how much natural Gas is produced to this day. 
+
+2. Oil, NGL & Gas make up 87.2 % of all produced commodities in 21st century showcasing their relevance today, while back in the 20th century, production was more diverse with four major players. All of those major players participating over 10% with two of which even participating over 20% to the total production. When comparing the charts it becomes clear that, Oil and NGL were dominating already and continued their dominance, whilst bituminous coal has lost almost 20 %. Natural gas has clearly risen from 12.5% to most produced commodity with a total of 45 %.
+
+3. The majority of coal classes never showed a huge percentage of total production and did also not catch up, whilst some even lost relevance over the course of the century.
+
+4. Cement was not produced until the mid 20th century, however it also did not exceeded a participation to the total production of 3.4% during the time it was produced making it only a minor player. However it is important to note that it still is one of three resource types that increased in percentage total production.
+
+Concluding it can be said that the production did change in the last century, mainly all analyzed commodities increased their total production volume, however the percentage showcased one major winner and one major looser during the last decade. All other commodities did gain or lose a few percentage points, but no striking change was noted.
+
+# Comparison of total emission versus total production
+Comming to an end of the analysis of total production we wanted to compare the total production summarized versus the total emission. First of all, it has to be denoted that the summarized production consists of a summary of different units and is thus only an estimation, while the summarized emissions consist of one single unit and are thus precice.
+```{r}
+library(plotly)
+library(dplyr)
+
+plot_ly(total_emiss_prod, x = ~year, y = ~value , color = ~category, colors = "Set1", type = 'scatter', mode = 'lines') %>%
+  layout(
+    title = "Production value per year per resource type including total",
+    xaxis = list(title = "Year"),
+    yaxis = list(title = "Emission value"),
+    legend = list(title = list(text = "resource type"))
+  )
+```
+When analyzing the data an almost exponential increase of production values can be seen while the emission values lag behind. However, they still show a similar pattern indicating a correlation between high production and high emission. When comparing the two curves one clear distinction can be observed.
+
+While the production values show very sharp drops and rapid reconsolidation, the emission values seem to be a bit less dynamic. They do not spike as highly but do  not drop as sharply indicating a decoupling between production and emission. The argument becomes more compelling when evaluating the last 10 years. While production continues to rise, emissions stagnate, though a trend reversal can not be observed as of yet. 
+
+# Analysis of Emission Data
+
+## Total emissions by ownership and resource type
+
+This bar chart presents the total emissions (measured in MtCO2e) categorized by three types of ownership: Investor-owned Companies, Nation States, and State-owned Entities. The emissions data is further categorized by resource type, which includes Coal (indicated in red), Gas (indicated in green), Oil (indicated in blue), and Other (indicated in gray). The primary findings are as follows:
+
+1.  ⁠The emissions from investor-owned companies are predominantly derived from Oil and Gas, with a lesser contribution from coal.
+
+2.  ⁠For nation-owned companies, coal is the principal source of emissions, with Oil and Gas contributing to a lesser extent.
+
+3.  ⁠State-owned companies primarily generate emissions from Oil, with total emissions being considerably higher than those from privately owned companies, yet still lower than those from nation-owned entities.
+
+A potential explanation for these trends is that investor-owned companies tend to operate on a smaller scale with a focus on profitability. In contrast, nation-owned companies may prioritize energy security and emphasize energy production from domestic resources. A similar rationale may apply to state-owned companies, which often oversee the national oil and gas sectors and serve as a crucial revenue source for many governments.
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+#open the data
+data <- emissions
+#filtering the last 50 years
+latest50_years = max(data$year)
+data <-data %>%
+  filter( year >= (latest50_years- 50))
+# categorized commodities
+data$resource_type <- ifelse(
+  data$commodity == "Oil & NGL", "Oil",
+  ifelse(
+    data$commodity == "Natural Gas", "Gas",
+    ifelse(
+      data$commodity %in% c("Metallurgical Coal", "Anthracite Coal" , 
+                            "Bituminous Coal","Sub-Bituminous Coal",
+                            "Thermal Coal" ,"Lignite Coal" ), "Coal",
+      "Other"
+    )
+  )
+)
+#summery for ownership and commodity into emmisions
+summary_data <- data %>%
+  group_by(parent_type,resource_type) %>%
+  summarise(emissions_MtCO2e = sum(total_emissions_MtCO2e, na.rm = TRUE))%>%
+  ungroup()
+# Colors
+economist_colors <- c(
+  "Coal" = "#E3120B",  # Bold red
+  "Oil" = "#0056A3",   # Bold blue
+  "Gas" = "#008F47",   # Bold green
+  "Other" = "#A5A5A5"  # Neutral gray
+)
+
+# BAR CHART
+static_plot <- ggplot(summary_data, aes(
+  x = parent_type, 
+  y = emissions_MtCO2e, 
+  fill = resource_type, 
+  text = paste0(
+    "Ownership: ", parent_type, 
+    "<br>Resource: ", resource_type, 
+    "<br>Emission: ", round(emissions_MtCO2e, 2), " MtCO2e"
+  )
+)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.7) +  # Adjust bar width
+  labs(
+    title = "Total Emissions by Ownership and Resource Type",
+    subtitle = "Stacked emissions across different ownership categories",
+    x = "Ownership",
+    y = "Total Emissions in MtCO2",
+    fill = "Resource Type"
+  ) +
+  scale_fill_manual(values = economist_colors) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, color = "black"),
+    plot.subtitle = element_text(size = 12, color = "black"),
+    axis.title.x = element_text(size = 12, color = "black"),
+    axis.title.y = element_text(size = 12, color = "black"),
+    axis.text = element_text(size = 10, color = "black"),
+    legend.position = "top",                                          
+    legend.title = element_text(size = 12),
+    legend.text = element_text(size = 10),
+    panel.background = element_rect(fill = "white", color = NA),    
+    plot.background = element_rect(fill = "white", color = NA),     
+    panel.grid.major.y = element_line(color = "grey80", linetype = "dotted"),  
+    panel.grid.major.x = element_blank(),                             
+    panel.border = element_blank()
+  )
+
+# Convert to interactive plot 
+interactive_plot <- ggplotly(static_plot, tooltip = "text")
+
+interactive_plot
+```
+
+## Yearly emissions by resource type type
+
+A new chart presents an analysis of annual emissions categorized by commodity type from 1900 to 2025, specifically focusing on Coal, Gas, Oil, and Other resources. This graph effectively integrates data from State-owned Entities and Nation States. The principal findings are as follows:
+
+1.  ⁠Coal continues to be the predominant source of emissions, followed by Oil, with Gas contributing less significantly and Other resources having minimal impact.
+
+2. ⁠ ⁠A notable surge in emissions across all resource categories is observed beginning in the mid-20th century.
+
+3. ⁠ ⁠While coal emissions are substantial, there is a marked increase in oil emissions post-mid-20th century, and gas emissions exhibit a more gradual rise.
+
+
+Several factors may explain these trends. Coal served as the foundation of the industrial revolution and maintained its status as the primary energy source for many years due to its availability and affordability. It became the leading fuel for power generation worldwide, with its usage peaking in the late 20th century to match with rising electricity demands. 
+
+The peak period for oil emissions occurred from the late 20th century to the early 21st century, coinciding with the global expansion of transportation modes such as automobiles, aircraft, and shipping following World War II. Additionally, oil emerged as a crucial component in the production of plastics, chemicals, and synthetic materials, further escalating demand. The 1970s experienced significant increases in oil production and emissions, despite fluctuations in prices, largely due to the control exerted by state-owned entities in OPEC nations over a substantial portion of the global supply.
+
+Natural gas has gained traction as a "cleaner" fossil fuel alternative to coal, resulting in a steady rise in emissions as nations shifted away from coal dependency. Numerous Nation States and State-owned Entities have made considerable investments in gas production, recognising it as a strategic energy resource, particularly in the 21st century. This upward trend in gas emissions is ongoing, reflecting consistent growth since the late 20th century.
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+#open the data
+#file_path <- "~/Desktop/Rproject/Emissions_m.csv"  
+data_area <- emissions
+# categorized commodities
+data_area$resource_type <- ifelse(
+  data_area$commodity == "Oil & NGL", "Oil",
+  ifelse(
+    data_area$commodity == "Natural Gas", "Gas",
+    ifelse(
+      data_area$commodity %in% c("Metallurgical Coal", "Anthracite Coal", 
+                                 "Bituminous Coal", "Sub-Bituminous Coal",
+                                 "Thermal Coal", "Lignite Coal"), "Coal",
+      "Other"
+    )
+  )
+)
+
+#convert and reverse order for stacking
+data_area$resource_type <- factor(data_area$resource_type, 
+                                  levels = c("Other", "Gas", "Oil", "Coal"))  
+# combine Nation and state-owned
+filtered_data_area <- data_area %>%
+  filter(parent_type %in% c("Nation State", "State-owned Entity"))
+
+# sum of Emis by year+type
+summary_data_area <- filtered_data_area %>%
+  filter(!is.na(total_emissions_MtCO2e)) %>%
+  group_by(year, resource_type) %>%
+  summarise(emissions_MtCO2e = sum(total_emissions_MtCO2e, na.rm = TRUE)) %>%
+  ungroup()
+
+# Need to stack it
+summary_data_area <- summary_data_area %>%
+  arrange(year, resource_type) %>%
+  group_by(year) %>%
+  mutate(
+    ymin = cumsum(emissions_MtCO2e) - emissions_MtCO2e,#lowe  
+    ymax = cumsum(emissions_MtCO2e) #upper                     
+  ) %>%
+  ungroup()
+
+# Economist-style colors
+economist_colors <- c(
+  "Coal" = "#E3120B",  # Red
+  "Oil" = "#0056A3",   # Blue
+  "Gas" = "#008F47",   # Green
+  "Other" = "#A5A5A5"  # Grey
+)
+
+# PLOT
+static_plot <- ggplot(summary_data_area, aes(x = year, group = resource_type)) +
+  # 1 layer faded stacked area chart
+  geom_ribbon(aes(
+    ymin = ymin,
+    ymax = ymax,
+    fill = resource_type,
+    text = paste0(
+      "Year: ", year, 
+      "<br>Resource: ", resource_type, 
+      "<br>Emission: ", round(emissions_MtCO2e, 2)
+    )
+  ), alpha = 0.5) +
+  # 2nd layer adding Lines 
+  geom_line(aes(
+    y = ymax,
+    color = resource_type,
+    text = paste0(
+      "Year: ", year, 
+      "<br>Resource: ", resource_type, 
+      "<br>Emission: ", round(emissions_MtCO2e, 2)
+    )
+  ), size = 1, show.legend = FALSE) +  # Suppress legend for lines
+  # 3rd layer adding label to a line
+  labs(
+    title = "Yearly Emissions for Nation and State owned",
+    x = "Year",
+    y = "Total Emissions in MtCO2",
+    fill = "Resource Type",
+    color = "Resource Type"
+  ) +
+  # coloring
+  scale_fill_manual(values = economist_colors) +
+  scale_color_manual(values = economist_colors) +
+  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
+  #general look
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.background = element_rect(fill = "white", color = NA),
+    panel.grid.major.y = element_line(color = "grey80", linetype = "dotted"),
+    panel.grid.major.x = element_blank(),
+    legend.position = "top",
+    plot.background = element_rect(fill = "white", color = NA),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(color = "black")
+  )
+
+# convert to an interactive plot
+interactive_plot <- ggplotly(static_plot, tooltip = "text") %>%
+  layout(
+    legend = list(
+      title = list(text = "Resource Type"), 
+      orientation = "v"
+    ),
+    showlegend = TRUE
+  )
+
+# Rename legend items to clean labels
+interactive_plot$x$data <- lapply(interactive_plot$x$data, function(trace) {
+  if (!is.null(trace$legendgroup)) {
+    trace$name <- gsub(",1", "", trace$name)  # Remove ",1"
+    trace$name <- gsub("\\(", "", trace$name)  # Remove "("
+    trace$name <- gsub("\\)", "", trace$name)  # Remove ")"
+  }
+  trace
+})
+
+
+interactive_plot
+```
+
+## Yearly emissions by resource type
+
+The trends observed in investor-owned companies exhibit similarities to those of state or nation-owned entities, yet notable distinctions exist. Total emissions from investor-owned firms are comparatively lower than those from their state/nation-owned counterparts. The emissions profile of these companies is primarily influenced by oil and gas, with coal contributing minimally. This suggests a pronounced emphasis on market-driven resources, such as oil and gas, which tend to yield higher profits within the private sector.
+
+In investor-owned firms, oil emissions are particularly prominent, peaking in conjunction with global industrial and transportation expansions. The private sector's tendency towards oil is a sign of its profitability and robust demand in international markets. Although gas also plays a significant role, it remains secondary to oil. Its importance has grown in recent decades as private enterprises leverage its rising demand as a "transition fuel." Conversely, coal's contribution is considerably diminished, reflecting the private sector's gradual shift away from coal in response to regulatory challenges and decreasing profitability.
+
+In contrast, state or nation-owned entities exhibit significantly higher total emissions, with coal being the predominant source, while oil and gas also contribute substantially. These entities demonstrate a slower pace in moving away from fossil fuels, particularly coal, which may be attributed to political inertia, existing infrastructure, and economic dependence on state-managed resources. While investor-owned companies remain heavily reliant on oil and gas, they appear to be more agile in adapting to market dynamics and regulatory influences, potentially facilitating a more rapid transition towards cleaner energy alternatives.
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+#open the data
+#file_path <- "~/Desktop/Rproject/Emissions_m.csv"  
+data_area1 <- emissions
+# Categorize the commodities
+data_area1$resource_type1 <- ifelse(
+  data_area1$commodity == "Oil & NGL", "Oil",
+  ifelse(
+    data_area1$commodity == "Natural Gas", "Gas",
+    ifelse(
+      data_area1$commodity %in% c("Metallurgical Coal", "Anthracite Coal", 
+                                 "Bituminous Coal", "Sub-Bituminous Coal",
+                                 "Thermal Coal", "Lignite Coal"), "Coal",
+      "Other"
+    )
+  )
+)
+
+# Convert ⁠ resource_type1 ⁠ to a factor with the desired stacking order
+data_area1$resource_type1 <- factor(data_area1$resource_type1, 
+                                    levels = c("Other", "Gas", "Coal", "Oil"))
+
+# Filter for Investor-owned companies only
+filtered_data_area1 <- data_area1 %>%
+  filter(parent_type == "Investor-owned Company")
+
+# Summarize emissions by year and resource type
+summary_data_area1 <- filtered_data_area1 %>%
+  filter(!is.na(total_emissions_MtCO2e)) %>%
+  group_by(year, resource_type1) %>%
+  summarise(emissions_MtCO2e1 = sum(total_emissions_MtCO2e, na.rm = TRUE)) %>%
+  ungroup()
+
+# Calculate stacking (cumulative emissions)
+summary_data_area1 <- summary_data_area1 %>%
+  arrange(year, resource_type1) %>%
+  group_by(year) %>%
+  mutate(
+    ymin = cumsum(emissions_MtCO2e1) - emissions_MtCO2e1,  # Lower bound of the ribbon
+    ymax = cumsum(emissions_MtCO2e1)                      # Upper bound of the ribbon
+  ) %>%
+  ungroup()
+
+# Economist-style colors
+economist_colors <- c(
+  "Oil" = "#0056A3",   # Blue
+  "Coal" = "#E3120B",  # Red
+  "Gas" = "#008F47",   # Green
+  "Other" = "#A5A5A5"  # Grey
+)
+
+# Plot
+static_plot1 <- ggplot(summary_data_area1, aes(x = year, group = resource_type1)) +
+  # 1. Faded stacked area chart
+  geom_ribbon(aes(
+    ymin = ymin,
+    ymax = ymax,
+    fill = resource_type1,
+    text = paste0(
+      "Year: ", year, 
+      "<br>Resource: ", resource_type1, 
+      "<br>Emission: ", round(emissions_MtCO2e1, 2)
+    )
+  ), alpha = 0.5) +
+  # 2. Line chart for the top of each ribbon
+  geom_line(aes(
+    y = ymax,
+    color = resource_type1,
+    text = paste0(
+      "Year: ", year, 
+      "<br>Resource: ", resource_type1, 
+      "<br>Emission: ", round(emissions_MtCO2e1, 2)
+    )
+  ), size = 1, show.legend = FALSE) +  # Suppress legend for lines
+  # 3. Labels
+  labs(
+    title = "Yearly Emissions for Investor-owned Companies",
+    x = "Year",
+    y = "Total Emissions in MtCO2",
+    fill = "Resource Type",
+    color = "Resource Type"
+  ) +
+  # Colors for both areas and lines
+  scale_fill_manual(values = economist_colors) +
+  scale_color_manual(values = economist_colors) +
+  scale_y_continuous(limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
+  # Styling
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.background = element_rect(fill = "white", color = NA),
+    panel.grid.major.y = element_line(color = "grey80", linetype = "dotted"),
+    panel.grid.major.x = element_blank(),
+    legend.position = "top",
+    plot.background = element_rect(fill = "white", color = NA),
+    axis.text = element_text(color = "black"),
+    axis.title = element_text(color = "black")
+  )
+
+# Convert to interactive plot
+interactive_plot1 <- ggplotly(static_plot1, tooltip = "text") %>%
+  layout(
+    legend = list(
+      title = list(text = "Resource Type"), 
+      orientation = "v"
+    ),
+    showlegend = TRUE
+  )
+
+# Rename legend items to clean labels
+interactive_plot1$x$data <- lapply(interactive_plot1$x$data, function(trace) {
+  if (!is.null(trace$legendgroup)) {
+    trace$name <- gsub(",1", "", trace$name)  # Remove ",1"
+    trace$name <- gsub("\\(", "", trace$name)  # Remove "("
+    trace$name <- gsub("\\)", "", trace$name)  # Remove ")"
+  }
+  trace
+})
+
+# Display interactive plot
+interactive_plot1
+```
+# Conclusion
+
+The examination of production values and emissions trends across different commodities reveals significant patterns in resource use, industrial development, and environmental repercussions over time.
+
+Coal, especially Bituminous and Thermal Coal, was essential during the initial stages of industrialisation. Although its proportion in total energy production has diminished, it continues to hold importance, particularly in developing nations and state-driven energy frameworks. Since the mid-20th century, oil and natural gas liquids have consistently led in both production and emissions, largely due to their key role in transportation, energy generation, and industrial processes. Natural gas has emerged as a prominent alternative to coal, providing cleaner energy with reduced emissions while maintaining increasing production. Consequently, the period following World War II marked a significant transition from coal to oil and gas as the primary energy sources, influenced by technological progress, urbanisation, and economic globalisation.
+
+Emissions from state-controlled entities are predominantly reliant on coal, reflecting extensive domestic energy initiatives aimed at ensuring energy security and fostering economic growth. This dependence on coal results in considerably higher emissions compared to those from investor-owned firms. In contrast, private sector companies tend to maintain a more diversified energy portfolio, drawing attention to oil and gas due to their profitability and market demand. These companies are also more adaptable to regulatory pressures, resulting in a lower reliance on coal.
+
+Emissions trends closely follow production patterns, with peaks in coal-related emissions corresponding to the industrial expansion of the mid-20th century, while oil and gas emissions reached their peaks later. The gradual increase in natural gas production signifies its role as a "transition fuel," offering lower emissions than coal while still contributing to overall carbon output.
+
+The integrated analysis of production and emissions data underscores the intricate nature of global resource consumption and its environmental impacts. While there is a noticeable transition towards cleaner energy sources, exemplified by the increased use of natural gas and a reduction in coal dependency, this progress is inadequate to achieve the overarching global climate objectives.
+
