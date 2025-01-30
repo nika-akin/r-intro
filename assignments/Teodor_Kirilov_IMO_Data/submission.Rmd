@@ -1,0 +1,184 @@
+---
+title: "Analyzing IMO Data"
+author: "Teodor Kirilov"
+date: "2025-01-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(tidyr)
+library(ggplot2)
+library(knitr)
+
+#Load the original data
+
+teamData <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-24/country_results_df.csv')
+participantData <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-24/individual_results_df.csv')
+
+#Tidying the team data
+
+#In case the one gender is identified, but the other not, we assume that all remaining are of the other type.
+teamData <- dplyr::mutate(teamData, team_size_male = if_else(is.na(team_size_male), team_size_all - team_size_female, team_size_male))
+teamData <- dplyr::mutate(teamData, team_size_female = if_else(is.na(team_size_female), team_size_all - team_size_male, team_size_female))
+
+#For the cases where both genders are NA or they don't sum up to the total amount, we count the unknown to a special category.
+teamData <- dplyr::mutate(teamData, team_size_male = if_else(is.na(team_size_male), 0, team_size_male))
+teamData <- dplyr::mutate(teamData, team_size_female = if_else(is.na(team_size_female), 0, team_size_female))
+teamData <- dplyr::mutate(teamData, team_size_unidentified_gender = team_size_all - team_size_male - team_size_female)
+
+#Replace NA entries with 0 for the points.
+teamData <- dplyr::mutate(teamData, p1 = if_else(is.na(p1), 0, p1))
+teamData <- dplyr::mutate(teamData, p2 = if_else(is.na(p2), 0, p2))
+teamData <- dplyr::mutate(teamData, p3 = if_else(is.na(p3), 0, p3))
+teamData <- dplyr::mutate(teamData, p4 = if_else(is.na(p4), 0, p4))
+teamData <- dplyr::mutate(teamData, p5 = if_else(is.na(p5), 0, p5))
+teamData <- dplyr::mutate(teamData, p6 = if_else(is.na(p6), 0, p6))
+teamData <- dplyr::mutate(teamData, p7 = if_else(is.na(p7), 0, p7))
+
+```
+
+## Introduction
+
+  The International Mathematical Olympiad (IMO) is a prestigious competition for pre-university students and the oldest of the International Science Olympiads. The first IMO took place in Romania in 1959. Initially founded for eastern European countries within the Warsaw Pact, the competition later expanded globally. Early editions were hosted in eastern Europe before spreading to other regions. The IMO consists of six problems (very long time ago it was 7), distributed over two days, with participants having four-and-a-half hours each day to solve three problems. Each problem is worth 7 points, making the maximum score 42. Over 100 countries participate annually, each sending a single team of up to six students, along with leaders and observers. Awards are given to the top 50% of individual contestants. While team scores are unofficially compared, only individual scores are formally recognized.\
+\
+In this project we will analyze the data of the participation in IMO in all of its former editions. We are going to make use of the following data set:\
+- [International Mathematical Olympiad (IMO) Data](https://github.com/rfordatascience/tidytuesday/tree/main/data/2024/2024-09-24)\
+
+## Data Overview
+Our data that we use consists of 2 relations:\
+\
+The first relation provides a detailed information for each team participation for all years including country, the amount of points accumulated on each task, the number of medals gathered and etc. The following is an example sample of it:\
+
+```{r teamDataViewSample}
+
+#Print an example sample of random 10 entries from the table.
+teamData%>%dplyr::sample_n(10)%>%kable()
+
+```
+
+The second provides a detailed information for every participant for every year including country, names, amount of points accumulated on each task, medals awarded and etc.\
+
+```{r participantDataViewSample}
+
+#Print an example sample of random 10 entries from the table.
+participantData%>%dplyr::sample_n(10)%>%kable()
+
+```
+
+## How have the rankings of the countries changed over the last 5 years?
+
+```{r countryRanking}
+
+printRanking <- function(y) {
+  countryRanking <- teamData%>%dplyr::filter(year == y)%>%dplyr::mutate(totalPoints = p1 + p2 + p3 + p4 + p5 + p6 + p7)%>%dplyr::select(country, totalPoints)%>%dplyr::arrange(-totalPoints)%>%dplyr::top_n(10)
+  ggplot(countryRanking, aes(x=reorder(country, +totalPoints), y=totalPoints)) + 
+  geom_bar(stat = "identity") +
+  labs(
+    title = paste("Top 10 Countries by Total Amount of Points Gathered for the Year:", as.character(y)),
+    x = "Country",
+    y = "Total Points Gathered",
+  ) +
+  scale_x_discrete(guide = guide_axis(n.dodge=3))
+}
+
+printRanking(2024)
+printRanking(2023)
+printRanking(2022)
+printRanking(2021)
+printRanking(2020)
+
+```
+\
+In the illustrated data we can observe that during the last 5 years the USA has steadily increased in rankings and eventually reaches first place in 2024. During this time China and South Korea maintain their position in the top 3. The picture of countries in the remaining 7 spots is quite dynamic, always with a large presence of European countries like Belarus, Romania, Turkey and Hungary. Asian countries like India, Japan and Vietnam are also present in the top 10.
+
+## What is the distribution of participation by gender?
+
+### Per Year
+
+```{r genderDistributionPerYear}
+
+#Calculate the gender distribution per year.
+genderDistributionPerYear <- teamData%>%dplyr::group_by(year)%>%dplyr::summarise(male = sum(team_size_male), female = sum(team_size_female))
+
+
+df_long <- pivot_longer(genderDistributionPerYear, cols = c(male, female), names_to = "gender", values_to = "count")
+
+ggplot(df_long, aes(x = year, y = count, color = gender)) +
+  geom_line(size = 1) +
+  scale_color_manual(values = c("male" = "blue", "female" = "pink")) +
+  labs(
+    title = "Amount of Male and Female Participants Over the Years",
+    x = "Year",
+    y = "Amount of participants",
+    color = "Gender"
+  ) +
+  theme_minimal()
+
+genderDistributionPerYearRatio <- genderDistributionPerYear%>%dplyr::mutate(ratio = male/(male + female))%>%dplyr::select(year, ratio)
+ggplot(genderDistributionPerYearRatio, aes(x = year, y = ratio)) +
+  geom_line(size = 1) + 
+  labs(
+    title = "Male to All Ratio Over the Years",
+    x = "Year",
+    y = "Ratio",
+  ) +
+  theme_minimal()
+
+genderDistributionPerYearRatioRecent <- genderDistributionPerYearRatio%>%dplyr::filter(year >= 1990)
+ggplot(genderDistributionPerYearRatioRecent, aes(x = year, y = ratio)) +
+  geom_line(size = 1) + 
+  labs(
+    title = "Male to All Ratio Over the Last 35 Years",
+    x = "Year",
+    y = "Ratio",
+  ) +
+  theme_minimal()
+```
+\
+As we can see in the data the number of participants both male and female have increased a lot during the years. The amount of male participants has always been significantly higher than the amount of female participants. The male to female ratio has reached quite a lot of extreme values in the yearly years of the contest, but in the last 20 years maintains an average of around 0.9 with a relatively small dispersion.
+
+### Per Country
+
+```{r genderDistributionPerCountry}
+
+#Calculate the gender distribution per country.
+genderDistributionPerCountry <- teamData%>%dplyr::group_by(country)%>%dplyr::summarise(male = sum(team_size_male), female = sum(team_size_female), unknown = sum(team_size_unidentified_gender))
+
+#Filter countries with a very small number pf participants and extreme values.
+thresholdNumberParticipants <- 12
+genderDistributionPerCountry <- genderDistributionPerCountry%>%dplyr::filter(male + female>= thresholdNumberParticipants)
+#genderDistributionPerCountry%>%kable()
+
+#Calculate male to all ratios:
+genderDistributionPerCountryRatio <-genderDistributionPerCountry%>%dplyr::mutate(ratio = male / (male + female))%>%dplyr::select(country, ratio)%>%dplyr::arrange(ratio)
+#genderDistributionPerCountryRatio%>%kable()
+
+#Print top 10:
+ggplot(genderDistributionPerCountryRatio%>%dplyr::top_n(10), aes(x=reorder(country, +ratio), y=ratio)) + 
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Top 10 countries by ratio of male to all participants.",
+    x = "Country",
+    y = "Ratio",
+  ) +
+  scale_x_discrete(guide = guide_axis(n.dodge=3))
+
+#Print bottom 10:
+ggplot(genderDistributionPerCountryRatio%>%dplyr::top_n(-10), aes(x=reorder(country, +ratio), y=ratio)) + 
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Bottom 10 countries by male to all participants ratio.",
+    x = "Country",
+    y = "Ratio",
+  ) +
+  scale_x_discrete(guide = guide_axis(n.dodge=3))
+
+```
+\
+As we can see in the data the male to all ratio in most countries fits between 75 to 90 percent. At the bottom are the countries Oman, UAE, Venezuela and at the top Democratic People's Republic of Korea, Mauritania and Nicaragua. In the data analysis above were excluded people whose gender is unknown from the data and countries that have barely participated in the contest (having less than 12 participants with known gender).
+
+## Summary
+
+The analysis of IMO data reveals significant trends in country rankings and gender participation over time. The USA has steadily risen in rankings, reaching first place in 2024, while China and South Korea have consistently remained in the top three. European and Asian countries frequently occupy other top spots. Participation has increased significantly, though gender disparities persist, with the male-to-female ratio historically high but stabilizing around 0.9 in recent decades. While most countries have a male participation rate between 75-90%, some, like Oman and UAE, have higher female representation.
