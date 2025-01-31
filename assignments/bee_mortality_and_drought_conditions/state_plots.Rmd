@@ -1,0 +1,3843 @@
+---
+title: "state_plots"
+author: "Cedric Bilger, Hoang Trang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+
+```{r filter-colony-plot-data, echo = FALSE}
+
+# Filter data for each state
+
+alabama_colony_data <- state_colony_data %>%
+  filter(region == "alabama") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+alaska_colony_data <- state_colony_data %>%
+  filter(region == "alaska") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+arizona_colony_data <- state_colony_data %>%
+  filter(region == "arizona") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+arkansas_colony_data <- state_colony_data %>%
+  filter(region == "arkansas") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+california_colony_data <- state_colony_data %>%
+  filter(region == "california") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+colorado_colony_data <- state_colony_data %>%
+  filter(region == "colorado") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+connecticut_colony_data <- state_colony_data %>%
+  filter(region == "connecticut") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+delaware_colony_data <- state_colony_data %>%
+  filter(region == "delaware") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+florida_colony_data <- state_colony_data %>%
+  filter(region == "florida") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+georgia_colony_data <- state_colony_data %>%
+  filter(region == "georgia") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+hawaii_colony_data <- state_colony_data %>%
+  filter(region == "hawaii") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+idaho_colony_data <- state_colony_data %>%
+  filter(region == "idaho") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+illinois_colony_data <- state_colony_data %>%
+  filter(region == "illinois") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+indiana_colony_data <- state_colony_data %>%
+  filter(region == "indiana") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+iowa_colony_data <- state_colony_data %>%
+  filter(region == "iowa") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+kansas_colony_data <- state_colony_data %>%
+  filter(region == "kansas") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+kentucky_colony_data <- state_colony_data %>%
+  filter(region == "kentucky") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+louisiana_colony_data <- state_colony_data %>%
+  filter(region == "louisiana") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+maine_colony_data <- state_colony_data %>%
+  filter(region == "maine") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+maryland_colony_data <- state_colony_data %>%
+  filter(region == "maryland") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+massachusetts_colony_data <- state_colony_data %>%
+  filter(region == "massachusetts") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+michigan_colony_data <- state_colony_data %>%
+  filter(region == "michigan") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+minnesota_colony_data <- state_colony_data %>%
+  filter(region == "minnesota") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+mississippi_colony_data <- state_colony_data %>%
+  filter(region == "mississippi") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+missouri_colony_data <- state_colony_data %>%
+  filter(region == "missouri") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+montana_colony_data <- state_colony_data %>%
+  filter(region == "montana") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+nebraska_colony_data <- state_colony_data %>%
+  filter(region == "nebraska") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+nevada_colony_data <- state_colony_data %>%
+  filter(region == "nevada") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+new_hampshire_colony_data <- state_colony_data %>%
+  filter(region == "new hampshire") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+new_jersey_colony_data <- state_colony_data %>%
+  filter(region == "new jersey") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+new_mexico_colony_data <- state_colony_data %>%
+  filter(region == "new mexico") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+new_york_colony_data <- state_colony_data %>%
+  filter(region == "new york") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+north_carolina_colony_data <- state_colony_data %>%
+  filter(region == "north carolina") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+north_dakota_colony_data <- state_colony_data %>%
+  filter(region == "north dakota") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+ohio_colony_data <- state_colony_data %>%
+  filter(region == "ohio") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+oklahoma_colony_data <- state_colony_data %>%
+  filter(region == "oklahoma") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+oregon_colony_data <- state_colony_data %>%
+  filter(region == "oregon") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+pennsylvania_colony_data <- state_colony_data %>%
+  filter(region == "pennsylvania") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+rhode_island_colony_data <- state_colony_data %>%
+  filter(region == "rhode island") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+south_carolina_colony_data <- state_colony_data %>%
+  filter(region == "south carolina") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+south_dakota_colony_data <- state_colony_data %>%
+  filter(region == "south dakota") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+tennessee_colony_data <- state_colony_data %>%
+  filter(region == "tennessee") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+texas_colony_data <- state_colony_data %>%
+  filter(region == "texas") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+utah_colony_data <- state_colony_data %>%
+  filter(region == "utah") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+vermont_colony_data <- state_colony_data %>%
+  filter(region == "vermont") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+virginia_colony_data <- state_colony_data %>%
+  filter(region == "virginia") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+washington_colony_data <- state_colony_data %>%
+  filter(region == "washington") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+west_virginia_colony_data <- state_colony_data %>%
+  filter(region == "west_virginia") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+wisconsin_colony_data <- state_colony_data %>%
+  filter(region == "wisconsin") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+
+wyoming_colony_data <- state_colony_data %>%
+  filter(region == "wyoming") %>%
+  select(period, colony_lost_pct) %>%
+  drop_na()
+```
+
+```{r filter-drought-plot-data, echo = FALSE}
+# Filter drought data for each state
+
+alabama_drought_data <- state_drought_data %>%
+  filter(region == "alabama") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+alaska_drought_data <- state_drought_data %>%
+  filter(region == "alaska") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+arizona_drought_data <- state_drought_data %>%
+  filter(region == "arizona") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+arkansas_drought_data <- state_drought_data %>%
+  filter(region == "arkansas") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+california_drought_data <- state_drought_data %>%
+  filter(region == "california") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+colorado_drought_data <- state_drought_data %>%
+  filter(region == "colorado") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+connecticut_drought_data <- state_drought_data %>%
+  filter(region == "connecticut") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+delaware_drought_data <- state_drought_data %>%
+  filter(region == "delaware") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+florida_drought_data <- state_drought_data %>%
+  filter(region == "florida") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+georgia_drought_data <- state_drought_data %>%
+  filter(region == "georgia") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+hawaii_drought_data <- state_drought_data %>%
+  filter(region == "hawaii") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+idaho_drought_data <- state_drought_data %>%
+  filter(region == "idaho") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+illinois_drought_data <- state_drought_data %>%
+  filter(region == "illinois") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+indiana_drought_data <- state_drought_data %>%
+  filter(region == "indiana") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+iowa_drought_data <- state_drought_data %>%
+  filter(region == "iowa") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+kansas_drought_data <- state_drought_data %>%
+  filter(region == "kansas") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+kentucky_drought_data <- state_drought_data %>%
+  filter(region == "kentucky") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+louisiana_drought_data <- state_drought_data %>%
+  filter(region == "louisiana") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+maine_drought_data <- state_drought_data %>%
+  filter(region == "maine") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+maryland_drought_data <- state_drought_data %>%
+  filter(region == "maryland") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+massachusetts_drought_data <- state_drought_data %>%
+  filter(region == "massachusetts") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+michigan_drought_data <- state_drought_data %>%
+  filter(region == "michigan") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+minnesota_drought_data <- state_drought_data %>%
+  filter(region == "minnesota") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+mississippi_drought_data <- state_drought_data %>%
+  filter(region == "mississippi") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+missouri_drought_data <- state_drought_data %>%
+  filter(region == "missouri") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+montana_drought_data <- state_drought_data %>%
+  filter(region == "montana") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+nebraska_drought_data <- state_drought_data %>%
+  filter(region == "nebraska") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+nevada_drought_data <- state_drought_data %>%
+  filter(region == "nevada") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+new_hampshire_drought_data <- state_drought_data %>%
+  filter(region == "new hampshire") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+new_jersey_drought_data <- state_drought_data %>%
+  filter(region == "new jersey") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+new_mexico_drought_data <- state_drought_data %>%
+  filter(region == "new mexico") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+new_york_drought_data <- state_drought_data %>%
+  filter(region == "new york") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+north_carolina_drought_data <- state_drought_data %>%
+  filter(region == "north carolina") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+north_dakota_drought_data <- state_drought_data %>%
+  filter(region == "north dakota") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+ohio_drought_data <- state_drought_data %>%
+  filter(region == "ohio") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+oklahoma_drought_data <- state_drought_data %>%
+  filter(region == "oklahoma") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+oregon_drought_data <- state_drought_data %>%
+  filter(region == "oregon") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+pennsylvania_drought_data <- state_drought_data %>%
+  filter(region == "pennsylvania") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+rhode_island_drought_data <- state_drought_data %>%
+  filter(region == "rhode island") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+south_carolina_drought_data <- state_drought_data %>%
+  filter(region == "south carolina") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+south_dakota_drought_data <- state_drought_data %>%
+  filter(region == "south dakota") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+tennessee_drought_data <- state_drought_data %>%
+  filter(region == "tennessee") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+texas_drought_data <- state_drought_data %>%
+  filter(region == "texas") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+utah_drought_data <- state_drought_data %>%
+  filter(region == "utah") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+vermont_drought_data <- state_drought_data %>%
+  filter(region == "vermont") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+virginia_drought_data <- state_drought_data %>%
+  filter(region == "virginia") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+washington_drought_data <- state_drought_data %>%
+  filter(region == "washington") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+west_virginia_drought_data <- state_drought_data %>%
+  filter(region == "west_virginia") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+wisconsin_drought_data <- state_drought_data %>%
+  filter(region == "wisconsin") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+wyoming_drought_data <- state_drought_data %>%
+  filter(region == "wyoming") %>%
+  select(period, avg_DSCI) %>%
+  drop_na()
+
+```
+
+```{r filter-D0-D4-drought-plot-data, echo = FALSE}
+
+D0_D4_alabama_drought_data <- D0_D4_drought_data %>%
+  filter(region == "alabama") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_alaska_drought_data <- D0_D4_drought_data %>%
+  filter(region == "alaska") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_arizona_drought_data <- D0_D4_drought_data %>%
+  filter(region == "arizona") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_arkansas_drought_data <- D0_D4_drought_data %>%
+  filter(region == "arkansas") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_california_drought_data <- D0_D4_drought_data %>%
+  filter(region == "california") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_colorado_drought_data <- D0_D4_drought_data %>%
+  filter(region == "colorado") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_connecticut_drought_data <- D0_D4_drought_data %>%
+  filter(region == "connecticut") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_delaware_drought_data <- D0_D4_drought_data %>%
+  filter(region == "delaware") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_florida_drought_data <- D0_D4_drought_data %>%
+  filter(region == "florida") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_georgia_drought_data <- D0_D4_drought_data %>%
+  filter(region == "georgia") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_hawaii_drought_data <- D0_D4_drought_data %>%
+  filter(region == "hawaii") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_idaho_drought_data <- D0_D4_drought_data %>%
+  filter(region == "idaho") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_illinois_drought_data <- D0_D4_drought_data %>%
+  filter(region == "illinois") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_indiana_drought_data <- D0_D4_drought_data %>%
+  filter(region == "indiana") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_iowa_drought_data <- D0_D4_drought_data %>%
+  filter(region == "iowa") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_kansas_drought_data <- D0_D4_drought_data %>%
+  filter(region == "kansas") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_kentucky_drought_data <- D0_D4_drought_data %>%
+  filter(region == "kentucky") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_louisiana_drought_data <- D0_D4_drought_data %>%
+  filter(region == "louisiana") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_maine_drought_data <- D0_D4_drought_data %>%
+  filter(region == "maine") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_maryland_drought_data <- D0_D4_drought_data %>%
+  filter(region == "maryland") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_massachusetts_drought_data <- D0_D4_drought_data %>%
+  filter(region == "massachusetts") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_michigan_drought_data <- D0_D4_drought_data %>%
+  filter(region == "michigan") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_minnesota_drought_data <- D0_D4_drought_data %>%
+  filter(region == "minnesota") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_mississippi_drought_data <- D0_D4_drought_data %>%
+  filter(region == "mississippi") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_missouri_drought_data <- D0_D4_drought_data %>%
+  filter(region == "missouri") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_montana_drought_data <- D0_D4_drought_data %>%
+  filter(region == "montana") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_nebraska_drought_data <- D0_D4_drought_data %>%
+  filter(region == "nebraska") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_nevada_drought_data <- D0_D4_drought_data %>%
+  filter(region == "nevada") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_new_hampshire_drought_data <- D0_D4_drought_data %>%
+  filter(region == "new hampshire") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_new_jersey_drought_data <- D0_D4_drought_data %>%
+  filter(region == "new jersey") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_new_mexico_drought_data <- D0_D4_drought_data %>%
+  filter(region == "new mexico") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_new_york_drought_data <- D0_D4_drought_data %>%
+  filter(region == "new york") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_north_carolina_drought_data <- D0_D4_drought_data %>%
+  filter(region == "north carolina") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_north_dakota_drought_data <- D0_D4_drought_data %>%
+  filter(region == "north dakota") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_ohio_drought_data <- D0_D4_drought_data %>%
+  filter(region == "ohio") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_oklahoma_drought_data <- D0_D4_drought_data %>%
+  filter(region == "oklahoma") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_oregon_drought_data <- D0_D4_drought_data %>%
+  filter(region == "oregon") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_pennsylvania_drought_data <- D0_D4_drought_data %>%
+  filter(region == "pennsylvania") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_rhode_island_drought_data <- D0_D4_drought_data %>%
+  filter(region == "rhode island") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_south_carolina_drought_data <- D0_D4_drought_data %>%
+  filter(region == "south carolina") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_south_dakota_drought_data <- D0_D4_drought_data %>%
+  filter(region == "south dakota") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_tennessee_drought_data <- D0_D4_drought_data %>%
+  filter(region == "tennessee") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_texas_drought_data <- D0_D4_drought_data %>%
+  filter(region == "texas") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_utah_drought_data <- D0_D4_drought_data %>%
+  filter(region == "utah") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_vermont_drought_data <- D0_D4_drought_data %>%
+  filter(region == "vermont") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_virginia_drought_data <- D0_D4_drought_data %>%
+  filter(region == "virginia") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_washington_drought_data <- D0_D4_drought_data %>%
+  filter(region == "washington") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_west_virginia_drought_data <- D0_D4_drought_data %>%
+  filter(region == "west virginia") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_wisconsin_drought_data <- D0_D4_drought_data %>%
+  filter(region == "wisconsin") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+D0_D4_wyoming_drought_data <- D0_D4_drought_data %>%
+  filter(region == "wyoming") %>%
+  select(period, avg_D0, avg_D1, avg_D2, avg_D3) %>%
+  drop_na()
+
+```
+
+```{r merge-plot-data, echo = FALSE}
+# Merge colony and drought data for each state
+
+alabama_data <- alabama_colony_data %>%
+  left_join(alabama_drought_data, by = "period")
+
+alabama_data$period <- factor(alabama_data$period, levels = unique(alabama_data$period))
+
+alaska_data <- alaska_colony_data %>%
+  left_join(alaska_drought_data, by = "period")
+
+alaska_data$period <- factor(alaska_data$period, levels = unique(alaska_data$period))
+
+arizona_data <- arizona_colony_data %>%
+  left_join(arizona_drought_data, by = "period")
+
+arizona_data$period <- factor(arizona_data$period, levels = unique(arizona_data$period))
+
+arkansas_data <- arkansas_colony_data %>%
+  left_join(arkansas_drought_data, by = "period")
+
+arkansas_data$period <- factor(arkansas_data$period, levels = unique(arkansas_data$period))
+
+california_data <- california_colony_data %>%
+  left_join(california_drought_data, by = "period")
+
+california_data$period <- factor(california_data$period, levels = unique(california_data$period))
+
+colorado_data <- colorado_colony_data %>%
+  left_join(colorado_drought_data, by = "period")
+
+colorado_data$period <- factor(colorado_data$period, levels = unique(colorado_data$period))
+
+connecticut_data <- connecticut_colony_data %>%
+  left_join(connecticut_drought_data, by = "period")
+
+connecticut_data$period <- factor(connecticut_data$period, levels = unique(connecticut_data$period))
+
+delaware_data <- delaware_colony_data %>%
+  left_join(delaware_drought_data, by = "period")
+
+delaware_data$period <- factor(delaware_data$period, levels = unique(delaware_data$period))
+
+florida_data <- florida_colony_data %>%
+  left_join(florida_drought_data, by = "period")
+
+florida_data$period <- factor(florida_data$period, levels = unique(florida_data$period))
+
+georgia_data <- georgia_colony_data %>%
+  left_join(georgia_drought_data, by = "period")
+
+georgia_data$period <- factor(georgia_data$period, levels = unique(georgia_data$period))
+
+hawaii_data <- hawaii_colony_data %>%
+  left_join(hawaii_drought_data, by = "period")
+
+hawaii_data$period <- factor(hawaii_data$period, levels = unique(hawaii_data$period))
+
+idaho_data <- idaho_colony_data %>%
+  left_join(idaho_drought_data, by = "period")
+
+idaho_data$period <- factor(idaho_data$period, levels = unique(idaho_data$period))
+
+illinois_data <- illinois_colony_data %>%
+  left_join(illinois_drought_data, by = "period")
+
+illinois_data$period <- factor(illinois_data$period, levels = unique(illinois_data$period))
+
+indiana_data <- indiana_colony_data %>%
+  left_join(indiana_drought_data, by = "period")
+
+indiana_data$period <- factor(indiana_data$period, levels = unique(indiana_data$period))
+
+iowa_data <- iowa_colony_data %>%
+  left_join(iowa_drought_data, by = "period")
+
+iowa_data$period <- factor(iowa_data$period, levels = unique(iowa_data$period))
+
+kansas_data <- kansas_colony_data %>%
+  left_join(kansas_drought_data, by = "period")
+
+kansas_data$period <- factor(kansas_data$period, levels = unique(kansas_data$period))
+
+kentucky_data <- kentucky_colony_data %>%
+  left_join(kentucky_drought_data, by = "period")
+
+kentucky_data$period <- factor(kentucky_data$period, levels = unique(kentucky_data$period))
+
+louisiana_data <- louisiana_colony_data %>%
+  left_join(louisiana_drought_data, by = "period")
+
+louisiana_data$period <- factor(louisiana_data$period, levels = unique(louisiana_data$period))
+
+maine_data <- maine_colony_data %>%
+  left_join(maine_drought_data, by = "period")
+
+maine_data$period <- factor(maine_data$period, levels = unique(maine_data$period))
+
+maryland_data <- maryland_colony_data %>%
+  left_join(maryland_drought_data, by = "period")
+
+maryland_data$period <- factor(maryland_data$period, levels = unique(maryland_data$period))
+
+massachusetts_data <- massachusetts_colony_data %>%
+  left_join(massachusetts_drought_data, by = "period")
+
+massachusetts_data$period <- factor(massachusetts_data$period, levels = unique(massachusetts_data$period))
+
+michigan_data <- michigan_colony_data %>%
+  left_join(michigan_drought_data, by = "period")
+
+michigan_data$period <- factor(michigan_data$period, levels = unique(michigan_data$period))
+
+minnesota_data <- minnesota_colony_data %>%
+  left_join(minnesota_drought_data, by = "period")
+
+minnesota_data$period <- factor(minnesota_data$period, levels = unique(minnesota_data$period))
+
+mississippi_data <- mississippi_colony_data %>%
+  left_join(mississippi_drought_data, by = "period")
+
+mississippi_data$period <- factor(mississippi_data$period, levels = unique(mississippi_data$period))
+
+missouri_data <- missouri_colony_data %>%
+  left_join(missouri_drought_data, by = "period")
+
+missouri_data$period <- factor(missouri_data$period, levels = unique(missouri_data$period))
+
+montana_data <- montana_colony_data %>%
+  left_join(montana_drought_data, by = "period")
+
+montana_data$period <- factor(montana_data$period, levels = unique(montana_data$period))
+
+nebraska_data <- nebraska_colony_data %>%
+  left_join(nebraska_drought_data, by = "period")
+
+nebraska_data$period <- factor(nebraska_data$period, levels = unique(nebraska_data$period))
+
+nevada_data <- nevada_colony_data %>%
+  left_join(nevada_drought_data, by = "period")
+
+nevada_data$period <- factor(nevada_data$period, levels = unique(nevada_data$period))
+
+new_hampshire_data <- new_hampshire_colony_data %>%
+  left_join(new_hampshire_drought_data, by = "period")
+
+new_hampshire_data$period <- factor(new_hampshire_data$period, levels = unique(new_hampshire_data$period))
+
+new_jersey_data <- new_jersey_colony_data %>%
+  left_join(new_jersey_drought_data, by = "period")
+
+new_jersey_data$period <- factor(new_jersey_data$period, levels = unique(new_jersey_data$period))
+
+new_mexico_data <- new_mexico_colony_data %>%
+  left_join(new_mexico_drought_data, by = "period")
+
+new_mexico_data$period <- factor(new_mexico_data$period, levels = unique(new_mexico_data$period))
+
+new_york_data <- new_york_colony_data %>%
+  left_join(new_york_drought_data, by = "period")
+
+new_york_data$period <- factor(new_york_data$period, levels = unique(new_york_data$period))
+
+north_carolina_data <- north_carolina_colony_data %>%
+  left_join(north_carolina_drought_data, by = "period")
+
+north_carolina_data$period <- factor(north_carolina_data$period, levels = unique(north_carolina_data$period))
+
+north_dakota_data <- north_dakota_colony_data %>%
+  left_join(north_dakota_drought_data, by = "period")
+
+north_dakota_data$period <- factor(north_dakota_data$period, levels = unique(north_dakota_data$period))
+
+ohio_data <- ohio_colony_data %>%
+  left_join(ohio_drought_data, by = "period")
+
+ohio_data$period <- factor(ohio_data$period, levels = unique(ohio_data$period))
+
+oklahoma_data <- oklahoma_colony_data %>%
+  left_join(oklahoma_drought_data, by = "period")
+
+oklahoma_data$period <- factor(oklahoma_data$period, levels = unique(oklahoma_data$period))
+
+oregon_data <- oregon_colony_data %>%
+  left_join(oregon_drought_data, by = "period")
+
+oregon_data$period <- factor(oregon_data$period, levels = unique(oregon_data$period))
+
+pennsylvania_data <- pennsylvania_colony_data %>%
+  left_join(pennsylvania_drought_data, by = "period")
+
+pennsylvania_data$period <- factor(pennsylvania_data$period, levels = unique(pennsylvania_data$period))
+
+rhode_island_data <- rhode_island_colony_data %>%
+  left_join(rhode_island_drought_data, by = "period")
+
+rhode_island_data$period <- factor(rhode_island_data$period, levels = unique(rhode_island_data$period))
+
+south_carolina_data <- south_carolina_colony_data %>%
+  left_join(south_carolina_drought_data, by = "period")
+
+south_carolina_data$period <- factor(south_carolina_data$period, levels = unique(south_carolina_data$period))
+
+south_dakota_data <- south_dakota_colony_data %>%
+  left_join(south_dakota_drought_data, by = "period")
+
+south_dakota_data$period <- factor(south_dakota_data$period, levels = unique(south_dakota_data$period))
+
+tennessee_data <- tennessee_colony_data %>%
+  left_join(tennessee_drought_data, by = "period")
+
+tennessee_data$period <- factor(tennessee_data$period, levels = unique(tennessee_data$period))
+
+texas_data <- texas_colony_data %>%
+  left_join(texas_drought_data, by = "period")
+
+texas_data$period <- factor(texas_data$period, levels = unique(texas_data$period))
+
+utah_data <- utah_colony_data %>%
+  left_join(utah_drought_data, by = "period")
+
+utah_data$period <- factor(utah_data$period, levels = unique(utah_data$period))
+
+vermont_data <- vermont_colony_data %>%
+  left_join(vermont_drought_data, by = "period")
+
+vermont_data$period <- factor(vermont_data$period, levels = unique(vermont_data$period))
+
+virginia_data <- virginia_colony_data %>%
+  left_join(virginia_drought_data, by = "period")
+
+virginia_data$period <- factor(virginia_data$period, levels = unique(virginia_data$period))
+
+washington_data <- washington_colony_data %>%
+  left_join(washington_drought_data, by = "period")
+
+washington_data$period <- factor(washington_data$period, levels = unique(washington_data$period))
+
+west_virginia_data <- west_virginia_colony_data %>%
+  left_join(west_virginia_drought_data, by = "period")
+
+west_virginia_data$period <- factor(west_virginia_data$period, levels = unique(west_virginia_data$period))
+
+wisconsin_data <- wisconsin_colony_data %>%
+  left_join(wisconsin_drought_data, by = "period")
+
+wisconsin_data$period <- factor(wisconsin_data$period, levels = unique(wisconsin_data$period))
+
+wyoming_data <- wyoming_colony_data %>%
+  left_join(wyoming_drought_data, by = "period")
+
+wyoming_data$period <- factor(wyoming_data$period, levels = unique(wyoming_data$period))
+```
+
+```{r merge-plot-data_2, echo = FALSE}
+alabama_data_2 <- alabama_colony_data %>%
+  left_join(D0_D4_alabama_drought_data, by = "period")
+alabama_data_2$period <- factor(alabama_data_2$period, levels = unique(alabama_data_2$period))
+
+alaska_data_2 <- alaska_colony_data %>%
+  left_join(D0_D4_alaska_drought_data, by = "period")
+alaska_data_2$period <- factor(alaska_data_2$period, levels = unique(alaska_data_2$period))
+
+arizona_data_2 <- arizona_colony_data %>%
+  left_join(D0_D4_arizona_drought_data, by = "period")
+arizona_data_2$period <- factor(arizona_data_2$period, levels = unique(arizona_data_2$period))
+
+arkansas_data_2 <- arkansas_colony_data %>%
+  left_join(D0_D4_arkansas_drought_data, by = "period")
+arkansas_data_2$period <- factor(arkansas_data_2$period, levels = unique(arkansas_data_2$period))
+
+california_data_2 <- california_colony_data %>%
+  left_join(D0_D4_california_drought_data, by = "period")
+california_data_2$period <- factor(california_data_2$period, levels = unique(california_data_2$period))
+
+colorado_data_2 <- colorado_colony_data %>%
+  left_join(D0_D4_colorado_drought_data, by = "period")
+colorado_data_2$period <- factor(colorado_data_2$period, levels = unique(colorado_data_2$period))
+
+connecticut_data_2 <- connecticut_colony_data %>%
+  left_join(D0_D4_connecticut_drought_data, by = "period")
+connecticut_data_2$period <- factor(connecticut_data_2$period, levels = unique(connecticut_data_2$period))
+
+delaware_data_2 <- delaware_colony_data %>%
+  left_join(D0_D4_delaware_drought_data, by = "period")
+delaware_data_2$period <- factor(delaware_data_2$period, levels = unique(delaware_data_2$period))
+
+florida_data_2 <- florida_colony_data %>%
+  left_join(D0_D4_florida_drought_data, by = "period")
+florida_data_2$period <- factor(florida_data_2$period, levels = unique(florida_data_2$period))
+
+georgia_data_2 <- georgia_colony_data %>%
+  left_join(D0_D4_georgia_drought_data, by = "period")
+georgia_data_2$period <- factor(georgia_data_2$period, levels = unique(georgia_data_2$period))
+
+hawaii_data_2 <- hawaii_colony_data %>%
+  left_join(D0_D4_hawaii_drought_data, by = "period")
+hawaii_data_2$period <- factor(hawaii_data_2$period, levels = unique(hawaii_data_2$period))
+
+idaho_data_2 <- idaho_colony_data %>%
+  left_join(D0_D4_idaho_drought_data, by = "period")
+idaho_data_2$period <- factor(idaho_data_2$period, levels = unique(idaho_data_2$period))
+
+illinois_data_2 <- illinois_colony_data %>%
+  left_join(D0_D4_illinois_drought_data, by = "period")
+illinois_data_2$period <- factor(illinois_data_2$period, levels = unique(illinois_data_2$period))
+
+indiana_data_2 <- indiana_colony_data %>%
+  left_join(D0_D4_indiana_drought_data, by = "period")
+indiana_data_2$period <- factor(indiana_data_2$period, levels = unique(indiana_data_2$period))
+
+iowa_data_2 <- iowa_colony_data %>%
+  left_join(D0_D4_iowa_drought_data, by = "period")
+iowa_data_2$period <- factor(iowa_data_2$period, levels = unique(iowa_data_2$period))
+
+kansas_data_2 <- kansas_colony_data %>%
+  left_join(D0_D4_kansas_drought_data, by = "period")
+kansas_data_2$period <- factor(kansas_data_2$period, levels = unique(kansas_data_2$period))
+
+kentucky_data_2 <- kentucky_colony_data %>%
+  left_join(D0_D4_kentucky_drought_data, by = "period")
+kentucky_data_2$period <- factor(kentucky_data_2$period, levels = unique(kentucky_data_2$period))
+
+louisiana_data_2 <- louisiana_colony_data %>%
+  left_join(D0_D4_louisiana_drought_data, by = "period")
+louisiana_data_2$period <- factor(louisiana_data_2$period, levels = unique(louisiana_data_2$period))
+
+maine_data_2 <- maine_colony_data %>%
+  left_join(D0_D4_maine_drought_data, by = "period")
+maine_data_2$period <- factor(maine_data_2$period, levels = unique(maine_data_2$period))
+
+maryland_data_2 <- maryland_colony_data %>%
+  left_join(D0_D4_maryland_drought_data, by = "period")
+maryland_data_2$period <- factor(maryland_data_2$period, levels = unique(maryland_data_2$period))
+
+massachusetts_data_2 <- massachusetts_colony_data %>%
+  left_join(D0_D4_massachusetts_drought_data, by = "period")
+massachusetts_data_2$period <- factor(massachusetts_data_2$period, levels = unique(massachusetts_data_2$period))
+
+michigan_data_2 <- michigan_colony_data %>%
+  left_join(D0_D4_michigan_drought_data, by = "period")
+michigan_data_2$period <- factor(michigan_data_2$period, levels = unique(michigan_data_2$period))
+
+minnesota_data_2 <- minnesota_colony_data %>%
+  left_join(D0_D4_minnesota_drought_data, by = "period")
+minnesota_data_2$period <- factor(minnesota_data_2$period, levels = unique(minnesota_data_2$period))
+
+mississippi_data_2 <- mississippi_colony_data %>%
+  left_join(D0_D4_mississippi_drought_data, by = "period")
+mississippi_data_2$period <- factor(mississippi_data_2$period, levels = unique(mississippi_data_2$period))
+
+missouri_data_2 <- missouri_colony_data %>%
+  left_join(D0_D4_missouri_drought_data, by = "period")
+missouri_data_2$period <- factor(missouri_data_2$period, levels = unique(missouri_data_2$period))
+
+montana_data_2 <- montana_colony_data %>%
+  left_join(D0_D4_montana_drought_data, by = "period")
+montana_data_2$period <- factor(montana_data_2$period, levels = unique(montana_data_2$period))
+
+nebraska_data_2 <- nebraska_colony_data %>%
+  left_join(D0_D4_nebraska_drought_data, by = "period")
+nebraska_data_2$period <- factor(nebraska_data_2$period, levels = unique(nebraska_data_2$period))
+
+nevada_data_2 <- nevada_colony_data %>%
+  left_join(D0_D4_nevada_drought_data, by = "period")
+nevada_data_2$period <- factor(nevada_data_2$period, levels = unique(nevada_data_2$period))
+
+new_hampshire_data_2 <- new_hampshire_colony_data %>%
+  left_join(D0_D4_new_hampshire_drought_data, by = "period")
+new_hampshire_data_2$period <- factor(new_hampshire_data_2$period, levels = unique(new_hampshire_data_2$period))
+
+new_jersey_data_2 <- new_jersey_colony_data %>%
+  left_join(D0_D4_new_jersey_drought_data, by = "period")
+new_jersey_data_2$period <- factor(new_jersey_data_2$period, levels = unique(new_jersey_data_2$period))
+
+new_mexico_data_2 <- new_mexico_colony_data %>%
+  left_join(D0_D4_new_mexico_drought_data, by = "period")
+new_mexico_data_2$period <- factor(new_mexico_data_2$period, levels = unique(new_mexico_data_2$period))
+
+new_york_data_2 <- new_york_colony_data %>%
+  left_join(D0_D4_new_york_drought_data, by = "period")
+new_york_data_2$period <- factor(new_york_data_2$period, levels = unique(new_york_data_2$period))
+
+north_carolina_data_2 <- north_carolina_colony_data %>%
+  left_join(D0_D4_north_carolina_drought_data, by = "period")
+north_carolina_data_2$period <- factor(north_carolina_data_2$period, levels = unique(north_carolina_data_2$period))
+
+north_dakota_data_2 <- north_dakota_colony_data %>%
+  left_join(D0_D4_north_dakota_drought_data, by = "period")
+north_dakota_data_2$period <- factor(north_dakota_data_2$period, levels = unique(north_dakota_data_2$period))
+
+ohio_data_2 <- ohio_colony_data %>%
+  left_join(D0_D4_ohio_drought_data, by = "period")
+ohio_data_2$period <- factor(ohio_data_2$period, levels = unique(ohio_data_2$period))
+
+oklahoma_data_2 <- oklahoma_colony_data %>%
+  left_join(D0_D4_oklahoma_drought_data, by = "period")
+oklahoma_data_2$period <- factor(oklahoma_data_2$period, levels = unique(oklahoma_data_2$period))
+
+oregon_data_2 <- oregon_colony_data %>%
+  left_join(D0_D4_oregon_drought_data, by = "period")
+oregon_data_2$period <- factor(oregon_data_2$period, levels = unique(oregon_data_2$period))
+
+pennsylvania_data_2 <- pennsylvania_colony_data %>%
+  left_join(D0_D4_pennsylvania_drought_data, by = "period")
+pennsylvania_data_2$period <- factor(pennsylvania_data_2$period, levels = unique(pennsylvania_data_2$period))
+
+rhode_island_data_2 <- rhode_island_colony_data %>%
+  left_join(D0_D4_rhode_island_drought_data, by = "period")
+rhode_island_data_2$period <- factor(rhode_island_data_2$period, levels = unique(rhode_island_data_2$period))
+
+south_carolina_data_2 <- south_carolina_colony_data %>%
+  left_join(D0_D4_south_carolina_drought_data, by = "period")
+south_carolina_data_2$period <- factor(south_carolina_data_2$period, levels = unique(south_carolina_data_2$period))
+
+south_dakota_data_2 <- south_dakota_colony_data %>%
+  left_join(D0_D4_south_dakota_drought_data, by = "period")
+south_dakota_data_2$period <- factor(south_dakota_data_2$period, levels = unique(south_dakota_data_2$period))
+
+tennessee_data_2 <- tennessee_colony_data %>%
+  left_join(D0_D4_tennessee_drought_data, by = "period")
+tennessee_data_2$period <- factor(tennessee_data_2$period, levels = unique(tennessee_data_2$period))
+
+texas_data_2 <- texas_colony_data %>%
+  left_join(D0_D4_texas_drought_data, by = "period")
+texas_data_2$period <- factor(texas_data_2$period, levels = unique(texas_data_2$period))
+
+utah_data_2 <- utah_colony_data %>%
+  left_join(D0_D4_utah_drought_data, by = "period")
+utah_data_2$period <- factor(utah_data_2$period, levels = unique(utah_data_2$period))
+
+vermont_data_2 <- vermont_colony_data %>%
+  left_join(D0_D4_vermont_drought_data, by = "period")
+vermont_data_2$period <- factor(vermont_data_2$period, levels = unique(vermont_data_2$period))
+
+virginia_data_2 <- virginia_colony_data %>%
+  left_join(D0_D4_virginia_drought_data, by = "period")
+virginia_data_2$period <- factor(virginia_data_2$period, levels = unique(virginia_data_2$period))
+
+washington_data_2 <- washington_colony_data %>%
+  left_join(D0_D4_washington_drought_data, by = "period")
+washington_data_2$period <- factor(washington_data_2$period, levels = unique(washington_data_2$period))
+
+west_virginia_data_2 <- west_virginia_colony_data %>%
+  left_join(D0_D4_west_virginia_drought_data, by = "period")
+west_virginia_data_2$period <- factor(west_virginia_data_2$period, levels = unique(west_virginia_data_2$period))
+
+wisconsin_data_2 <- wisconsin_colony_data %>%
+  left_join(D0_D4_wisconsin_drought_data, by = "period")
+wisconsin_data_2$period <- factor(wisconsin_data_2$period, levels = unique(wisconsin_data_2$period))
+
+wyoming_data_2 <- wyoming_colony_data %>%
+  left_join(D0_D4_wyoming_drought_data, by = "period")
+wyoming_data_2$period <- factor(wyoming_data_2$period, levels = unique(wyoming_data_2$period))
+
+```
+
+
+
+<button onclick="togglePlot('alabama')">alabama</button>
+<div id="alabamaPlot" style="display:none;">
+
+```{r plot-of-data-alabama, echo = FALSE}
+  ggplot(alabama_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(alabama_data$period)), 
+    labels = unique(alabama_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Alabama", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-alabama, echo=FALSE}
+  ggplot(alabama_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(alabama_data_2$period)), 
+    labels = unique(alabama_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Alabama (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('alaska')">alaska</button>
+<div id="alaskaPlot" style="display:none;">
+
+```{r plot-of-data-alaska, echo = FALSE}
+  ggplot(alaska_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(alaska_data$period)), 
+    labels = unique(alaska_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Alaska", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-alaska, echo=FALSE}
+  ggplot(alaska_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(alaska_data_2$period)), 
+    labels = unique(alaska_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Alaska (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('arizona')">arizona</button>
+<div id="arizonaPlot" style="display:none;">
+
+```{r plot-of-data-arizona, echo = FALSE}
+  ggplot(arizona_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(arizona_data$period)), 
+    labels = unique(arizona_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Arizona", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-arizona, echo=FALSE}
+  ggplot(arizona_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(arizona_data_2$period)), 
+    labels = unique(arizona_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Arizona (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('arkansas')">arkansas</button>
+<div id="arkansasPlot" style="display:none;">
+
+```{r plot-of-data-arkansas, echo = FALSE}
+  ggplot(arkansas_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(arkansas_data$period)), 
+    labels = unique(arkansas_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Arkansas", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-arkansas, echo=FALSE}
+  ggplot(arkansas_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(arkansas_data_2$period)), 
+    labels = unique(arkansas_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Arkansas (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('california')">california</button>
+<div id="californiaPlot" style="display:none;">
+
+```{r plot-of-data-california, echo = FALSE}
+  ggplot(california_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(california_data$period)), 
+    labels = unique(california_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in California", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-california, echo=FALSE}
+  ggplot(california_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(california_data_2$period)), 
+    labels = unique(california_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in California (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('colorado')">colorado</button>
+<div id="coloradoPlot" style="display:none;">
+
+```{r plot-of-data-colorado, echo = FALSE}
+  ggplot(colorado_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(colorado_data$period)), 
+    labels = unique(colorado_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Colorado", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-colorado, echo=FALSE}
+  ggplot(colorado_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(colorado_data_2$period)), 
+    labels = unique(colorado_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Colorado (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('connecticut')">connecticut</button>
+<div id="connecticutPlot" style="display:none;">
+
+```{r plot-of-data-connecticut, echo = FALSE}
+  ggplot(connecticut_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(connecticut_data$period)), 
+    labels = unique(connecticut_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Connecticut", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-connecticut, echo=FALSE}
+  ggplot(connecticut_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(connecticut_data_2$period)), 
+    labels = unique(connecticut_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Connecticut (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('delaware')">delaware</button>
+<div id="delawarePlot" style="display:none;">
+
+```{r plot-of-data-delaware, echo = FALSE}
+  ggplot(delaware_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(delaware_data$period)), 
+    labels = unique(delaware_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Delaware", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-delaware, echo=FALSE}
+  ggplot(delaware_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(delaware_data_2$period)), 
+    labels = unique(delaware_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Delaware (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('florida')">florida</button>
+<div id="floridaPlot" style="display:none;">
+
+```{r plot-of-data-florida, echo = FALSE}
+  ggplot(florida_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(florida_data$period)), 
+    labels = unique(florida_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Florida", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-florida, echo=FALSE}
+  ggplot(florida_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(florida_data_2$period)), 
+    labels = unique(florida_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Florida (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('georgia')">georgia</button>
+<div id="georgiaPlot" style="display:none;">
+
+```{r plot-of-data-georgia, echo = FALSE}
+  ggplot(georgia_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(georgia_data$period)), 
+    labels = unique(georgia_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Georgia", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-georgia, echo=FALSE}
+  ggplot(georgia_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(georgia_data_2$period)), 
+    labels = unique(georgia_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Georgia (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('hawaii')">hawaii</button>
+<div id="hawaiiPlot" style="display:none;">
+
+```{r plot-of-data-hawaii, echo = FALSE}
+  ggplot(hawaii_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(hawaii_data$period)), 
+    labels = unique(hawaii_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Hawaii", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-hawaii, echo=FALSE}
+  ggplot(hawaii_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(hawaii_data_2$period)), 
+    labels = unique(hawaii_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Hawaii (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('idaho')">idaho</button>
+<div id="idahoPlot" style="display:none;">
+
+```{r plot-of-data-idaho, echo = FALSE}
+  ggplot(idaho_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(idaho_data$period)), 
+    labels = unique(idaho_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Idaho", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-idaho, echo=FALSE}
+  ggplot(idaho_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(idaho_data_2$period)), 
+    labels = unique(idaho_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Idaho (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('illinois')">illinois</button>
+<div id="illinoisPlot" style="display:none;">
+
+```{r plot-of-data-illinois, echo = FALSE}
+  ggplot(illinois_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(illinois_data$period)), 
+    labels = unique(illinois_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Illinois", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-illinois, echo=FALSE}
+  ggplot(illinois_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(illinois_data_2$period)), 
+    labels = unique(illinois_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Illinois (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('indiana')">indiana</button>
+<div id="indianaPlot" style="display:none;">
+
+```{r plot-of-data-indiana, echo = FALSE}
+  ggplot(indiana_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(indiana_data$period)), 
+    labels = unique(indiana_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Indiana", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-indiana, echo=FALSE}
+  ggplot(indiana_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(indiana_data_2$period)), 
+    labels = unique(indiana_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Indiana (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('iowa')">iowa</button>
+<div id="iowaPlot" style="display:none;">
+
+```{r plot-of-data-iowa, echo = FALSE}
+  ggplot(iowa_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(iowa_data$period)), 
+    labels = unique(iowa_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Iowa", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-iowa, echo=FALSE}
+  ggplot(iowa_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(iowa_data_2$period)), 
+    labels = unique(iowa_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Iowa (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('kansas')">kansas</button>
+<div id="kansasPlot" style="display:none;">
+
+```{r plot-of-data-kansas, echo = FALSE}
+  ggplot(kansas_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(kansas_data$period)), 
+    labels = unique(kansas_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Kansas", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-kansas, echo=FALSE}
+  ggplot(kansas_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(kansas_data_2$period)), 
+    labels = unique(kansas_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Kansas (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('kentucky')">kentucky</button>
+<div id="kentuckyPlot" style="display:none;">
+
+```{r plot-of-data-kentucky, echo = FALSE}
+  ggplot(kentucky_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(kentucky_data$period)), 
+    labels = unique(kentucky_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Kentucky", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-kentucky, echo=FALSE}
+  ggplot(kentucky_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(kentucky_data_2$period)), 
+    labels = unique(kentucky_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Kentucky (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('louisiana')">louisiana</button>
+<div id="louisianaPlot" style="display:none;">
+
+```{r plot-of-data-louisiana, echo = FALSE}
+  ggplot(louisiana_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(louisiana_data$period)), 
+    labels = unique(louisiana_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Louisiana", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-louisiana, echo=FALSE}
+  ggplot(louisiana_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(louisiana_data_2$period)), 
+    labels = unique(louisiana_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Louisiana (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('maine')">maine</button>
+<div id="mainePlot" style="display:none;">
+
+```{r plot-of-data-maine, echo = FALSE}
+  ggplot(maine_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(maine_data$period)), 
+    labels = unique(maine_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Maine", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-maine, echo=FALSE}
+  ggplot(maine_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(maine_data_2$period)), 
+    labels = unique(maine_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Maine (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('maryland')">maryland</button>
+<div id="marylandPlot" style="display:none;">
+
+```{r plot-of-data-maryland, echo = FALSE}
+  ggplot(maryland_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(maryland_data$period)), 
+    labels = unique(maryland_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Maryland", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-maryland, echo=FALSE}
+  ggplot(maryland_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(maryland_data_2$period)), 
+    labels = unique(maryland_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Maryland (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('massachusetts')">massachusetts</button>
+<div id="massachusettsPlot" style="display:none;">
+
+```{r plot-of-data-massachusetts, echo = FALSE}
+  ggplot(massachusetts_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(massachusetts_data$period)), 
+    labels = unique(massachusetts_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Massachusetts", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-massachusetts, echo=FALSE}
+  ggplot(massachusetts_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(massachusetts_data_2$period)), 
+    labels = unique(massachusetts_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Massachusetts (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('michigan')">michigan</button>
+<div id="michiganPlot" style="display:none;">
+
+```{r plot-of-data-michigan, echo = FALSE}
+  ggplot(michigan_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(michigan_data$period)), 
+    labels = unique(michigan_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Michigan", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-michigan, echo=FALSE}
+  ggplot(michigan_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(michigan_data_2$period)), 
+    labels = unique(michigan_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Michigan (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('minnesota')">minnesota</button>
+<div id="minnesotaPlot" style="display:none;">
+
+```{r plot-of-data-minnesota, echo = FALSE}
+  ggplot(minnesota_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(minnesota_data$period)), 
+    labels = unique(minnesota_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Minnesota", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-minnesota, echo=FALSE}
+  ggplot(minnesota_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(minnesota_data_2$period)), 
+    labels = unique(minnesota_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Minnesota (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('mississippi')">mississippi</button>
+<div id="mississippiPlot" style="display:none;">
+
+```{r plot-of-data-mississippi, echo = FALSE}
+  ggplot(mississippi_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(mississippi_data$period)), 
+    labels = unique(mississippi_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Mississippi", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-mississippi, echo=FALSE}
+  ggplot(mississippi_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(mississippi_data_2$period)), 
+    labels = unique(mississippi_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Mississippi (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('missouri')">missouri</button>
+<div id="missouriPlot" style="display:none;">
+
+```{r plot-of-data-missouri, echo = FALSE}
+  ggplot(missouri_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(missouri_data$period)), 
+    labels = unique(missouri_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Missouri", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-missouri, echo=FALSE}
+  ggplot(missouri_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(missouri_data_2$period)), 
+    labels = unique(missouri_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Missouri (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('montana')">montana</button>
+<div id="montanaPlot" style="display:none;">
+
+```{r plot-of-data-montana, echo = FALSE}
+  ggplot(montana_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(montana_data$period)), 
+    labels = unique(montana_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Montana", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-montana, echo=FALSE}
+  ggplot(montana_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(montana_data_2$period)), 
+    labels = unique(montana_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Montana (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('nebraska')">nebraska</button>
+<div id="nebraskaPlot" style="display:none;">
+
+```{r plot-of-data-nebraska, echo = FALSE}
+  ggplot(nebraska_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(nebraska_data$period)), 
+    labels = unique(nebraska_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Nebraska", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-nebraska, echo=FALSE}
+  ggplot(nebraska_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(nebraska_data_2$period)), 
+    labels = unique(nebraska_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Nebraska (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('nevada')">nevada</button>
+<div id="nevadaPlot" style="display:none;">
+
+```{r plot-of-data-nevada, echo = FALSE}
+  ggplot(nevada_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(nevada_data$period)), 
+    labels = unique(nevada_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Nevada", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-nevada, echo=FALSE}
+  ggplot(nevada_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(nevada_data_2$period)), 
+    labels = unique(nevada_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Nevada (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('new_hampshire')">new_hampshire</button>
+<div id="new_hampshirePlot" style="display:none;">
+
+```{r plot-of-data-new_hampshire, echo = FALSE}
+  ggplot(new_hampshire_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_hampshire_data$period)), 
+    labels = unique(new_hampshire_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in New Hampshire", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-new_hampshire, echo=FALSE}
+  ggplot(new_hampshire_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_hampshire_data_2$period)), 
+    labels = unique(new_hampshire_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in New Hampshire (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('new_jersey')">new_jersey</button>
+<div id="new_jerseyPlot" style="display:none;">
+
+```{r plot-of-data-new_jersey, echo = FALSE}
+  ggplot(new_jersey_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_jersey_data$period)), 
+    labels = unique(new_jersey_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in New Jersey", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-new_jersey, echo=FALSE}
+  ggplot(new_jersey_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_jersey_data_2$period)), 
+    labels = unique(new_jersey_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in New Jersey (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('new_mexico')">new_mexico</button>
+<div id="new_mexicoPlot" style="display:none;">
+
+```{r plot-of-data-new_mexico, echo = FALSE}
+  ggplot(new_mexico_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_mexico_data$period)), 
+    labels = unique(new_mexico_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in New Mexico", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-new_mexico, echo=FALSE}
+  ggplot(new_mexico_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_mexico_data_2$period)), 
+    labels = unique(new_mexico_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in New Mexico (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('new_york')">new_york</button>
+<div id="new_yorkPlot" style="display:none;">
+
+```{r plot-of-data-new_york, echo = FALSE}
+  ggplot(new_york_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_york_data$period)), 
+    labels = unique(new_york_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in New York", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-new_york, echo=FALSE}
+  ggplot(new_york_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(new_york_data_2$period)), 
+    labels = unique(new_york_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in New York (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('north_carolina')">north_carolina</button>
+<div id="north_carolinaPlot" style="display:none;">
+
+```{r plot-of-data-north_carolina, echo = FALSE}
+  ggplot(north_carolina_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(north_carolina_data$period)), 
+    labels = unique(north_carolina_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in North Carolina", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-north_carolina, echo=FALSE}
+  ggplot(north_carolina_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(north_carolina_data_2$period)), 
+    labels = unique(north_carolina_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in North Carolina (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('north_dakota')">north_dakota</button>
+<div id="north_dakotaPlot" style="display:none;">
+
+```{r plot-of-data-north_dakota, echo = FALSE}
+  ggplot(north_dakota_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(north_dakota_data$period)), 
+    labels = unique(north_dakota_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in North Dakota", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-north_dakota, echo=FALSE}
+  ggplot(north_dakota_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(north_dakota_data_2$period)), 
+    labels = unique(north_dakota_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in North Dakota (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('ohio')">ohio</button>
+<div id="ohioPlot" style="display:none;">
+
+```{r plot-of-data-ohio, echo = FALSE}
+  ggplot(ohio_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(ohio_data$period)), 
+    labels = unique(ohio_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Ohio", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-ohio, echo=FALSE}
+  ggplot(ohio_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(ohio_data_2$period)), 
+    labels = unique(ohio_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Ohio (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('oklahoma')">oklahoma</button>
+<div id="oklahomaPlot" style="display:none;">
+
+```{r plot-of-data-oklahoma, echo = FALSE}
+  ggplot(oklahoma_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(oklahoma_data$period)), 
+    labels = unique(oklahoma_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Oklahoma", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-oklahoma, echo=FALSE}
+  ggplot(oklahoma_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(oklahoma_data_2$period)), 
+    labels = unique(oklahoma_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Oklahoma (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('oregon')">oregon</button>
+<div id="oregonPlot" style="display:none;">
+
+```{r plot-of-data-oregon, echo = FALSE}
+  ggplot(oregon_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(oregon_data$period)), 
+    labels = unique(oregon_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Oregon", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-oregon, echo=FALSE}
+  ggplot(oregon_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(oregon_data_2$period)), 
+    labels = unique(oregon_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Oregon (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('pennsylvania')">pennsylvania</button>
+<div id="pennsylvaniaPlot" style="display:none;">
+
+```{r plot-of-data-pennsylvania, echo = FALSE}
+  ggplot(pennsylvania_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(pennsylvania_data$period)), 
+    labels = unique(pennsylvania_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Pennsylvania", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-pennsylvania, echo=FALSE}
+  ggplot(pennsylvania_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(pennsylvania_data_2$period)), 
+    labels = unique(pennsylvania_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Pennsylvania (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('rhode_island')">rhode_island</button>
+<div id="rhode_islandPlot" style="display:none;">
+
+```{r plot-of-data-rhode_island, echo = FALSE}
+  ggplot(rhode_island_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(rhode_island_data$period)), 
+    labels = unique(rhode_island_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Rhode Island", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-rhode_island, echo=FALSE}
+  ggplot(rhode_island_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(rhode_island_data_2$period)), 
+    labels = unique(rhode_island_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Rhode Island (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('south_carolina')">south_carolina</button>
+<div id="south_carolinaPlot" style="display:none;">
+
+```{r plot-of-data-south_carolina, echo = FALSE}
+  ggplot(south_carolina_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(south_carolina_data$period)), 
+    labels = unique(south_carolina_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in South Carolina", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-south_carolina, echo=FALSE}
+  ggplot(south_carolina_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(south_carolina_data_2$period)), 
+    labels = unique(south_carolina_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in South Carolina (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('south_dakota')">south_dakota</button>
+<div id="south_dakotaPlot" style="display:none;">
+
+```{r plot-of-data-south_dakota, echo = FALSE}
+  ggplot(south_dakota_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(south_dakota_data$period)), 
+    labels = unique(south_dakota_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in South Dakota", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-south_dakota, echo=FALSE}
+  ggplot(south_dakota_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(south_dakota_data_2$period)), 
+    labels = unique(south_dakota_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in South Dakota (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('tennessee')">tennessee</button>
+<div id="tennesseePlot" style="display:none;">
+
+```{r plot-of-data-tennessee, echo = FALSE}
+  ggplot(tennessee_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(tennessee_data$period)), 
+    labels = unique(tennessee_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Tennessee", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-tennessee, echo=FALSE}
+  ggplot(tennessee_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(tennessee_data_2$period)), 
+    labels = unique(tennessee_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Tennessee (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('texas')">texas</button>
+<div id="texasPlot" style="display:none;">
+
+```{r plot-of-data-texas, echo = FALSE}
+  ggplot(texas_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(texas_data$period)), 
+    labels = unique(texas_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Texas", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-texas, echo=FALSE}
+  ggplot(texas_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(texas_data_2$period)), 
+    labels = unique(texas_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Texas (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('utah')">utah</button>
+<div id="utahPlot" style="display:none;">
+
+```{r plot-of-data-utah, echo = FALSE}
+  ggplot(utah_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(utah_data$period)), 
+    labels = unique(utah_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Utah", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-utah, echo=FALSE}
+  ggplot(utah_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(utah_data_2$period)), 
+    labels = unique(utah_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Utah (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('vermont')">vermont</button>
+<div id="vermontPlot" style="display:none;">
+
+```{r plot-of-data-vermont, echo = FALSE}
+  ggplot(vermont_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(vermont_data$period)), 
+    labels = unique(vermont_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Vermont", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-vermont, echo=FALSE}
+  ggplot(vermont_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(vermont_data_2$period)), 
+    labels = unique(vermont_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Vermont (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('virginia')">virginia</button>
+<div id="virginiaPlot" style="display:none;">
+
+```{r plot-of-data-virginia, echo = FALSE}
+  ggplot(virginia_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(virginia_data$period)), 
+    labels = unique(virginia_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Virginia", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-virginia, echo=FALSE}
+  ggplot(virginia_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(virginia_data_2$period)), 
+    labels = unique(virginia_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Virginia (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('washington')">washington</button>
+<div id="washingtonPlot" style="display:none;">
+
+```{r plot-of-data-washington, echo = FALSE}
+  ggplot(washington_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(washington_data$period)), 
+    labels = unique(washington_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Washington", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-washington, echo=FALSE}
+  ggplot(washington_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(washington_data_2$period)), 
+    labels = unique(washington_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Washington (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('west_virginia')">west_virginia</button>
+<div id="west_virginiaPlot" style="display:none;">
+
+```{r plot-of-data-west_virginia, echo = FALSE}
+  ggplot(west_virginia_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(west_virginia_data$period)), 
+    labels = unique(west_virginia_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in West Virginia", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-west_virginia, echo=FALSE}
+  ggplot(west_virginia_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(west_virginia_data_2$period)), 
+    labels = unique(west_virginia_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in West Virginia (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('wisconsin')">wisconsin</button>
+<div id="wisconsinPlot" style="display:none;">
+
+```{r plot-of-data-wisconsin, echo = FALSE}
+  ggplot(wisconsin_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(wisconsin_data$period)), 
+    labels = unique(wisconsin_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Wisconsin", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-wisconsin, echo=FALSE}
+  ggplot(wisconsin_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(wisconsin_data_2$period)), 
+    labels = unique(wisconsin_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Wisconsin (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+
+<button onclick="togglePlot('wyoming')">wyoming</button>
+<div id="wyomingPlot" style="display:none;">
+
+```{r plot-of-data-wyoming, echo = FALSE}
+  ggplot(wyoming_data, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_DSCI, color = "Average DSCI"), size = 1) +
+    geom_point(aes(y = avg_DSCI, color = "Average DSCI"), size = 2) +
+    scale_y_continuous(name = "Colony Lost (%)", sec.axis = sec_axis(~ ., name = "Average DSCI")) +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "Average DSCI" = "red")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(wyoming_data$period)), 
+    labels = unique(wyoming_data$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Colony Loss Percentage and Average DSCI Trends in Wyoming", x = "Period") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1), panel.grid.minor = element_blank(), panel.grid.major = element_line(color = "grey90"), axis.title.y.left = element_text(color = "blue"), axis.title.y.right = element_text(color = "red"))
+```
+
+```{r plot-of-data-D0-D4-wyoming, echo=FALSE}
+  ggplot(wyoming_data_2, aes(x = as.numeric(period))) +
+    geom_line(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 1) +
+    geom_point(aes(y = colony_lost_pct, color = "Colony Lost (%)"), size = 2) +
+    geom_line(aes(y = avg_D0, color = "D0 (%)"), size = 1) +
+    geom_point(aes(y = avg_D0, color = "D0 (%)"), size = 2) +
+    geom_line(aes(y = avg_D1, color = "D1 (%)"), size = 1) +
+    geom_point(aes(y = avg_D1, color = "D1 (%)"), size = 2) +
+    geom_line(aes(y = avg_D2, color = "D2 (%)"), size = 1) +
+    geom_point(aes(y = avg_D2, color = "D2 (%)"), size = 2) +
+    geom_line(aes(y = avg_D3, color = "D3 (%)"), size = 1) +
+    geom_point(aes(y = avg_D3, color = "D3 (%)"), size = 2) +
+    scale_y_continuous(name = "Percentage") +
+    scale_color_manual(values = c("Colony Lost (%)" = "blue", "D0 (%)" = "#FFCCCC", "D1 (%)" = "#FF9999", "D2 (%)" = "#FF6666", "D3 (%)" = "#FF3333", "D4 (%)" = "#CC0000")) +
+    scale_x_continuous(
+    breaks = seq_along(unique(wyoming_data_2$period)), 
+    labels = unique(wyoming_data_2$period)
+    ) +
+    theme_minimal() +
+    labs(title = "Drought Severity and Bee Colony Loss in Wyoming (2015-2021)", x = "Period", fill = "Drought Level",
+      color = "") +
+    theme_minimal() +   
+    theme(
+      legend.position = "bottom",
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+```
+
+</div>
+
+
+<script>
+function togglePlot(state) {
+var plotDiv = document.getElementById(state + "Plot");
+
+if (plotDiv.style.display === "none") {
+plotDiv.style.display = "block";
+} else {
+plotDiv.style.display = "none";
+}
+}
+</script>
+
