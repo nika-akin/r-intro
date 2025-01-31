@@ -718,6 +718,7 @@ ggplot(colony_avg_loss_by_state, aes(x = state, y = avg_colony_lost_pct, fill = 
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 ```
+<br>
 The Drought data can be visualized in a similar manner, using the Drought Severity and Coverage Index (DSCI) as a measure of drought intensity and extent. The DSCI ranges from 0 (indicating no drought) to 500 (representing extreme drought conditions). The visualization clearly highlights a regional pattern, with significantly more severe drought conditions in the western United States compared to the eastern regions.<br>
 
 ```{r animate-us-map-of-average-DSCI, echo = FALSE}
@@ -801,6 +802,7 @@ ggplot(yearly_avg_DSCI, aes(x = state, y = avg_DSCI_yearly, fill = as.factor(yea
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1))  
 ```
+<br>
 Below, interactive buttons provide access to state-specific visualizations, allowing for a detailed examination of the relationship between colony loss percentages and drought conditions. Clicking on a button reveals two plots for the selected state. The first plot illustrates the trend of colony loss percentages alongside the Drought Severity and Coverage Index (DSCI) over time, offering insights into overall drought severity. The second plot presents colony loss percentages in relation to the drought levels D0-D3, enabling a more granular comparison of different drought intensities.<br>
 Feel free to explore the data by selecting different states to uncover potential patterns and regional variations in bee colony losses and drought conditions.<br>
 
